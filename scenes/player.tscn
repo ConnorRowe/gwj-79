@@ -1,0 +1,43 @@
+[gd_scene load_steps=6 format=3 uid="uid://ckj0vgb12l7gj"]
+
+[ext_resource type="Texture2D" uid="uid://ciwlgcavu80ug" path="res://assets/turret_base.png" id="1_3vyb7"]
+[ext_resource type="Script" uid="uid://bh68a3oclm1gr" path="res://scenes/player.gd" id="1_g2els"]
+[ext_resource type="Texture2D" uid="uid://cwk5nja3vdpum" path="res://assets/turret_barrel.png" id="2_qhqgy"]
+[ext_resource type="PackedScene" uid="uid://d3rrr2sykov13" path="res://scenes/Jiggler.tscn" id="3_dqkch"]
+[ext_resource type="Script" uid="uid://bm212sc3bmvsx" path="res://scenes/jiggler.gd" id="5_qlg0r"]
+
+[node name="Player" type="Node2D"]
+script = ExtResource("1_g2els")
+
+[node name="BarrelRoot" type="Node2D" parent="."]
+
+[node name="TurretBarrel" type="Sprite2D" parent="BarrelRoot"]
+position = Vector2(0, -15)
+rotation = 1.39626
+scale = Vector2(1, 1)
+texture = ExtResource("2_qhqgy")
+offset = Vector2(0, -7)
+
+[node name="BarrelJiggler" parent="BarrelRoot" instance=ExtResource("3_dqkch")]
+max_position_jiggle = Vector2(2, 2)
+scale_jiggle = Vector2(0.1, 0.1)
+max_rotation_jiggle = 0.314
+metadata/_custom_type_script = "uid://bm212sc3bmvsx"
+
+[node name="TurretBase" type="Sprite2D" parent="."]
+texture = ExtResource("1_3vyb7")
+offset = Vector2(0, -9)
+
+[node name="BaseJiggler" type="Node" parent="TurretBase"]
+script = ExtResource("5_qlg0r")
+scale_jiggle = Vector2(0.05, 0.05)
+metadata/_custom_type_script = "uid://bm212sc3bmvsx"
+
+[node name="ShootTimer" type="Timer" parent="."]
+wait_time = 0.2
+autostart = true
+
+[node name="ShootMarker" type="Marker2D" parent="."]
+position = Vector2(0, -15)
+
+[connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]

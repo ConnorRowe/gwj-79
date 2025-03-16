@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://cib1c5bt7c426"]
+
+[ext_resource type="Script" uid="uid://c2s7bk2kl5gug" path="res://scenes/spent_casing.gd" id="1_3jkj1"]
+[ext_resource type="Texture2D" uid="uid://bt7av00ox54nv" path="res://assets/casing.png" id="2_e4l5h"]
+
+[node name="SpentCasing" type="Node2D"]
+script = ExtResource("1_3jkj1")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_e4l5h")
+
+[node name="ExpirationTimer" type="Timer" parent="."]
+wait_time = 1.5
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="ExpirationTimer" to="." method="_on_expiration_timer_timeout"]

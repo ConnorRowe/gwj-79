@@ -1,0 +1,172 @@
+[gd_scene load_steps=17 format=3 uid="uid://boelhh15qe8dn"]
+
+[ext_resource type="Script" uid="uid://vag0hr2tvcqw" path="res://scenes/alien.gd" id="1_3vbw7"]
+[ext_resource type="Texture2D" uid="uid://bbn5b1bpbktgv" path="res://assets/shadow.png" id="2_np108"]
+[ext_resource type="Texture2D" uid="uid://duc8ypwt7up8b" path="res://assets/alien.png" id="3_vxp04"]
+[ext_resource type="PackedScene" uid="uid://d3rrr2sykov13" path="res://scenes/Jiggler.tscn" id="4_np108"]
+
+[sub_resource type="Animation" id="Animation_kufd8"]
+resource_name = "hover"
+length = 4.0
+loop_mode = 1
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body:offset")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2, 4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, -16), Vector2(0, -20), Vector2(0, -16)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Shadow:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.8, 1, 1.76667, 2.76667, 3.76667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 1, 2, 1, 0]
+}
+
+[sub_resource type="Animation" id="Animation_g58bj"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -16)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Shadow:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_87urc"]
+_data = {
+&"RESET": SubResource("Animation_g58bj"),
+&"hover": SubResource("Animation_kufd8")
+}
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3vbw7"]
+atlas = ExtResource("3_vxp04")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_np108"]
+atlas = ExtResource("3_vxp04")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vxp04"]
+atlas = ExtResource("3_vxp04")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kufd8"]
+atlas = ExtResource("3_vxp04")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g58bj"]
+atlas = ExtResource("3_vxp04")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_87urc"]
+atlas = ExtResource("3_vxp04")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xd2hs"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3vbw7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_np108")
+}, {
+"duration": 3.0,
+"texture": SubResource("AtlasTexture_vxp04")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kufd8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g58bj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_87urc")
+}],
+"loop": false,
+"name": &"blink",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xd2hs"]
+radius = 6.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_s6rwo"]
+radius = 16.0
+height = 42.0
+
+[node name="Alien" type="CharacterBody2D"]
+motion_mode = 1
+script = ExtResource("1_3vbw7")
+
+[node name="Shadow" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.411765)
+texture = ExtResource("2_np108")
+hframes = 3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_87urc")
+}
+autoplay = "hover"
+
+[node name="Body" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_xd2hs")
+animation = &"blink"
+frame = 5
+frame_progress = 1.0
+offset = Vector2(0, -16)
+
+[node name="Jiggler" parent="Body" instance=ExtResource("4_np108")]
+max_position_jiggle = Vector2(2, 2)
+scale_jiggle = Vector2(0.1, 0.1)
+max_skew_jiggle = 1.0
+max_rotation_jiggle = 1.0
+
+[node name="BlinkTimer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_xd2hs")
+
+[node name="BulletArea2D" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 0
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BulletArea2D"]
+position = Vector2(0, -19)
+shape = SubResource("CapsuleShape2D_s6rwo")
+
+[connection signal="timeout" from="BlinkTimer" to="." method="_on_blink_timer_timeout"]
