@@ -1,3 +1,44 @@
-[gd_scene format=3 uid="uid://cwm0j7kfes2jt"]
+[gd_scene load_steps=7 format=3 uid="uid://cwm0j7kfes2jt"]
+
+[ext_resource type="PackedScene" uid="uid://ckj0vgb12l7gj" path="res://scenes/player.tscn" id="1_o5qli"]
+[ext_resource type="Script" uid="uid://edskk6v02fk3" path="res://scenes/main.gd" id="1_sugp2"]
+[ext_resource type="FontFile" uid="uid://bpeduc0frp0b2" path="res://assets/font/ConsFont_v2.ttf" id="3_jyhfs"]
+[ext_resource type="PackedScene" uid="uid://djnlwxvkvp8e4" path="res://scenes/JigglyCamera2D.tscn" id="3_sugp2"]
+[ext_resource type="PackedScene" uid="uid://boelhh15qe8dn" path="res://scenes/alien.tscn" id="5_tbgi4"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_tbgi4"]
+font = ExtResource("3_jyhfs")
 
 [node name="Main" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_sugp2")
+
+[node name="Reference" type="Node" parent="."]
+
+[node name="Label" type="Label" parent="Reference"]
+offset_left = 3.0
+offset_top = -31.0
+offset_right = 43.0
+offset_bottom = -8.0
+text = "320 x 180"
+
+[node name="Debug" type="Label" parent="Reference"]
+offset_left = 5.0
+offset_top = 3.0
+offset_right = 77.0
+offset_bottom = 26.0
+label_settings = SubResource("LabelSettings_tbgi4")
+
+[node name="Player" parent="." instance=ExtResource("1_o5qli")]
+position = Vector2(160, 170)
+
+[node name="JigglyCamera2d" parent="." instance=ExtResource("3_sugp2")]
+position = Vector2(161, 90)
+max_offset_jiggle = Vector2(1, 1)
+max_zoom_jiggle = 0.005
+decay = 1.5
+
+[node name="Alien" parent="." instance=ExtResource("5_tbgi4")]
+position = Vector2(126, 33)
+
+[connection signal="on_player_shoot" from="Player" to="." method="_on_player_on_player_shoot"]
