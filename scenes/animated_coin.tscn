@@ -1,0 +1,124 @@
+[gd_scene load_steps=15 format=3 uid="uid://gbbcuoo3w2et"]
+
+[ext_resource type="Script" uid="uid://c2kgvh4280vy1" path="res://scenes/animated_coin.gd" id="1_fo05v"]
+[ext_resource type="Texture2D" uid="uid://vrtsssy7ps77" path="res://assets/coin_spin.png" id="1_k2x4r"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fo05v"]
+atlas = ExtResource("1_k2x4r")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wu0si"]
+atlas = ExtResource("1_k2x4r")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vm3i6"]
+atlas = ExtResource("1_k2x4r")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5fit3"]
+atlas = ExtResource("1_k2x4r")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_afyju"]
+atlas = ExtResource("1_k2x4r")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nyjr0"]
+atlas = ExtResource("1_k2x4r")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gdrpl"]
+atlas = ExtResource("1_k2x4r")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7mq83"]
+atlas = ExtResource("1_k2x4r")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ve5e3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fo05v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wu0si")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vm3i6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5fit3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_afyju")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nyjr0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gdrpl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7mq83")
+}],
+"loop": true,
+"name": &"default",
+"speed": 9.25
+}]
+
+[sub_resource type="Animation" id="Animation_fo05v"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(197, -185)]
+}
+
+[sub_resource type="Animation" id="Animation_k2x4r"]
+resource_name = "fly_to_stack"
+length = 2.625
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.3, 2.625),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(197, -185), Vector2(-80, -90), Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_wu0si"]
+_data = {
+&"RESET": SubResource("Animation_fo05v"),
+&"fly_to_stack": SubResource("Animation_k2x4r")
+}
+
+[node name="AnimatedCoin" type="Node2D"]
+script = ExtResource("1_fo05v")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(197, -185)
+sprite_frames = SubResource("SpriteFrames_ve5e3")
+autoplay = "default"
+frame = 4
+frame_progress = 0.210902
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_wu0si")
+}
+autoplay = "fly_to_stack"
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

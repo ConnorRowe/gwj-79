@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://ddbg37pmbpu8j"]
 
-[ext_resource type="Texture2D" uid="uid://cc474xmq3adfk" path="res://assets/particles.png" id="1_knpv7"]
-[ext_resource type="Script" uid="uid://cpnnyg4ddqovt" path="res://scenes/alien_hit_particles.gd" id="2_b4he2"]
+[ext_resource type="Texture2D" uid="uid://cc474xmq3adfk" path="res://assets/particles.png" id="1_ob6n4"]
+[ext_resource type="Script" uid="uid://cpnnyg4ddqovt" path="res://scenes/hit_particles.gd" id="2_ii5vy"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_b4he2"]
 particles_animation = true
@@ -33,19 +33,18 @@ initial_velocity_min = 21.53
 initial_velocity_max = 93.28
 gravity = Vector3(0, 98, 0)
 scale_curve = SubResource("CurveTexture_fqlue")
-color = Color(0.6, 0.898039, 0.313726, 1)
 anim_offset_max = 1.0
 anim_offset_curve = SubResource("CurveTexture_ob6i7")
 
-[node name="AlienHitParticles" type="GPUParticles2D"]
+[node name="HitParticles" type="GPUParticles2D"]
 material = SubResource("CanvasItemMaterial_b4he2")
 emitting = false
-texture = ExtResource("1_knpv7")
+texture = ExtResource("1_ob6n4")
 one_shot = true
 explosiveness = 0.85
 randomness = 0.3
 fixed_fps = 15
 process_material = SubResource("ParticleProcessMaterial_wbt0o")
-script = ExtResource("2_b4he2")
+script = ExtResource("2_ii5vy")
 
 [connection signal="finished" from="." to="." method="_on_finished"]

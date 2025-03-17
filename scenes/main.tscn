@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://djnlwxvkvp8e4" path="res://scenes/JigglyCamera2D.tscn" id="3_sugp2"]
 [ext_resource type="PackedScene" uid="uid://boelhh15qe8dn" path="res://scenes/alien.tscn" id="5_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://ims70vjlah6o" path="res://scenes/crop.tscn" id="6_tefeu"]
-[ext_resource type="PackedScene" uid="uid://coqjjgaycd3i6" path="res://scenes/wabbit.tscn" id="7_o6xl0"]
+[ext_resource type="PackedScene" uid="uid://cxkjg0gnut4n0" path="res://scenes/coin_stack.tscn" id="7_o6xl0"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_tbgi4"]
 font = ExtResource("3_jyhfs")
@@ -16,6 +16,7 @@ y_sort_enabled = true
 script = ExtResource("1_sugp2")
 
 [node name="ColorRect" type="ColorRect" parent="."]
+z_index = -2
 offset_right = 320.0
 offset_bottom = 180.0
 color = Color(0.294118, 0.411765, 0.184314, 1)
@@ -56,16 +57,7 @@ z_index = 1
 offset_right = 320.0
 offset_bottom = 180.0
 
-[node name="Wabbit" parent="." instance=ExtResource("7_o6xl0")]
-z_index = 3
-position = Vector2(28, 27)
-
-[node name="Wabbit2" parent="." instance=ExtResource("7_o6xl0")]
-z_index = 3
-position = Vector2(229, 53)
-
-[node name="Wabbit3" parent="." instance=ExtResource("7_o6xl0")]
-z_index = 3
-position = Vector2(274, 160)
+[node name="CoinStack" parent="." instance=ExtResource("7_o6xl0")]
+position = Vector2(278, 178)
 
 [connection signal="on_player_shoot" from="Player" to="." method="_on_player_on_player_shoot"]

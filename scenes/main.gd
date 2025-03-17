@@ -10,6 +10,7 @@ const SMOKE_COLOUR = Color(Color.GRAY, 0.6)
 var draw_to_image: Image
 var draw_to_texture: ImageTexture
 var draw_image_update_time := 0.0
+var cursor_colour := Color(Color.RED, 0.4)
 
 var rainbow_line: Image = preload("res://assets/rainbow_line.png").get_image()
 
@@ -23,6 +24,14 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	debug.text = "%d fps" % Engine.get_frames_per_second() 
+	
+	# Draw cursor
+	cursor_colour.h = wrapf(cursor_colour.h + delta, 0.0, 1.0)
+	var centre_mouse = Vector2i(get_global_mouse_position())
+	draw_pixel(centre_mouse, cursor_colour)
+	draw_pixel(centre_mouse + Vector2i(1,0), cursor_colour)
+	draw_pixel(centre_mouse + Vector2i(1,1), cursor_colour)
+	draw_pixel(centre_mouse + Vector2i(0,1), cursor_colour)
 	
 	draw_image_update_time -= delta
 	
@@ -53,9 +62,12 @@ func _on_player_on_player_shoot() -> void:
 
 
 func draw_rainbow_line(pos: Vector2i) -> void:
-	draw_to_image.blit_rect(rainbow_line, Rect2i(0, 0, 4, 14), pos)
+	draw_to_image.blend_rect(rainbow_line, Rect2i(0, 0, 4, 14), pos)
 
 
 func draw_smoke_trail(pos: Vector2i) -> void:
+	draw_pixel(pos, SMOKE_COLOUR)
+
+func draw_pixel(pos: Vector2i, colour: Color) -> void:
 	if pos.x > 0 and pos.x < 320 and pos.y > 0 and pos.y < 180:
-		draw_to_image.set_pixelv(pos, SMOKE_COLOUR)
+		draw_to_image.set_pixelv(pos, colour)

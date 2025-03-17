@@ -4,15 +4,21 @@ extends CharacterBody2D
 @onready var blink_timer: Timer = $BlinkTimer
 @onready var body: AnimatedSprite2D = $Body
 @onready var jiggler: Jiggler = $Body/Jiggler
+@onready var main: Main = get_tree().current_scene
 
-const SPEED = 300.0
-const JUMP_VELOCITY = -400.0
-var dir := Vector2.ZERO
+const SPEED = 40.0
+var dir := Vector2.LEFT
 var health := 3
 var is_dead := false
 
 
-func _physics_process(_delta: float) -> void:	
+func _physics_process(_delta: float) -> void:
+	
+	if(velocity.length_squared() > 0):
+		var img = body.sprite_frames.get_frame_texture(body.animation, body.frame).get_image()
+		img.convert(Image.FORMAT_RGBA4444)
+		main.draw_to_image.blend_rect(img, Rect2i(0,0,32,32), body.global_position + body.offset + Vector2(-16,-16))
+	
 	if dir.length_squared():
 		velocity = dir * SPEED
 	else:

@@ -7,4 +7,3 @@ void fragment() {
 	if(texture(noiseSampler, UV).r < disintegrateAlpha)
 		discard;
 }
-

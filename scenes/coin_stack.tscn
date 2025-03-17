@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://cxkjg0gnut4n0"]
+
+[ext_resource type="Script" uid="uid://iv1o2tshq6xl" path="res://scenes/coin_stack.gd" id="1_ws3tn"]
+
+[node name="CoinStack" type="Node2D"]
+script = ExtResource("1_ws3tn")
+
+[node name="Coins" type="Node2D" parent="."]

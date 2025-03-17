@@ -1,17 +1,134 @@
-[gd_scene load_steps=3 format=3 uid="uid://ims70vjlah6o"]
+[gd_scene load_steps=7 format=3 uid="uid://ims70vjlah6o"]
 
 [ext_resource type="Script" uid="uid://ch4tpbuvq0rkp" path="res://scenes/crop.gd" id="1_fe780"]
 [ext_resource type="Texture2D" uid="uid://ymav562ae7tc" path="res://assets/carrot_growing.png" id="1_pl0dt"]
+[ext_resource type="Texture2D" uid="uid://cttddu7r8xorc" path="res://assets/carrot.png" id="2_pfmy0"]
+
+[sub_resource type="Animation" id="Animation_221fb"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Carrot:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-2, 8)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Carrot:region_rect")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Rect2(0, 0, 32, 64)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Carrot:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_2dbbp"]
+resource_name = "shoot_carrot_up"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Carrot:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(1.16667, 1.66667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-2, -24), Vector2(-2, -100)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Carrot:region_rect")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1.21667, 1.46667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Rect2(0, 0, 32, 28), Rect2(0, 0, 32, 64)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Carrot:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = false
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(1.2),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"spawn_dirt_particles"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_248e2"]
+_data = {
+&"RESET": SubResource("Animation_221fb"),
+&"shoot_carrot_up": SubResource("Animation_2dbbp")
+}
 
 [node name="Crop" type="Node2D"]
 script = ExtResource("1_fe780")
 
+[node name="Carrot" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(-2, 8)
+texture = ExtResource("2_pfmy0")
+centered = false
+offset = Vector2(-16, 0)
+region_enabled = true
+region_rect = Rect2(0, 0, 32, 64)
+
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_pl0dt")
 offset = Vector2(0, -11)
-hframes = 9
+hframes = 10
 
 [node name="GrowTimer" type="Timer" parent="."]
 autostart = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_248e2")
+}
+
+[node name="CarrotMarker" type="Marker2D" parent="."]
+position = Vector2(-2, -68)
 
 [connection signal="timeout" from="GrowTimer" to="." method="_on_grow_timer_timeout"]
