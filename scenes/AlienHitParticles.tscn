@@ -1,0 +1,51 @@
+[gd_scene load_steps=9 format=3 uid="uid://ddbg37pmbpu8j"]
+
+[ext_resource type="Texture2D" uid="uid://cc474xmq3adfk" path="res://assets/particles.png" id="1_knpv7"]
+[ext_resource type="Script" uid="uid://cpnnyg4ddqovt" path="res://scenes/alien_hit_particles.gd" id="2_b4he2"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_b4he2"]
+particles_animation = true
+particles_anim_h_frames = 2
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Curve" id="Curve_3cnbx"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.492611, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_ob6i7"]
+texture_mode = 1
+curve = SubResource("Curve_3cnbx")
+
+[sub_resource type="Curve" id="Curve_ia26x"]
+_data = [Vector2(0.748768, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_fqlue"]
+curve = SubResource("Curve_ia26x")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_wbt0o"]
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+spread = 75.484
+flatness = 1.0
+initial_velocity_min = 21.53
+initial_velocity_max = 93.28
+gravity = Vector3(0, 98, 0)
+scale_curve = SubResource("CurveTexture_fqlue")
+color = Color(0.6, 0.898039, 0.313726, 1)
+anim_offset_max = 1.0
+anim_offset_curve = SubResource("CurveTexture_ob6i7")
+
+[node name="AlienHitParticles" type="GPUParticles2D"]
+material = SubResource("CanvasItemMaterial_b4he2")
+emitting = false
+texture = ExtResource("1_knpv7")
+one_shot = true
+explosiveness = 0.85
+randomness = 0.3
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_wbt0o")
+script = ExtResource("2_b4he2")
+
+[connection signal="finished" from="." to="." method="_on_finished"]

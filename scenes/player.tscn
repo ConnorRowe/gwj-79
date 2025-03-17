@@ -1,20 +1,67 @@
-[gd_scene load_steps=6 format=3 uid="uid://ckj0vgb12l7gj"]
+[gd_scene load_steps=11 format=3 uid="uid://ckj0vgb12l7gj"]
 
 [ext_resource type="Texture2D" uid="uid://ciwlgcavu80ug" path="res://assets/turret_base.png" id="1_3vyb7"]
 [ext_resource type="Script" uid="uid://bh68a3oclm1gr" path="res://scenes/player.gd" id="1_g2els"]
 [ext_resource type="Texture2D" uid="uid://cwk5nja3vdpum" path="res://assets/turret_barrel.png" id="2_qhqgy"]
 [ext_resource type="PackedScene" uid="uid://d3rrr2sykov13" path="res://scenes/Jiggler.tscn" id="3_dqkch"]
 [ext_resource type="Script" uid="uid://bm212sc3bmvsx" path="res://scenes/jiggler.gd" id="5_qlg0r"]
+[ext_resource type="Texture2D" uid="uid://bd5m4q5ycspi1" path="res://assets/bullet_chain.png" id="6_tuyoq"]
+[ext_resource type="Texture2D" uid="uid://3us8ltrx5pmk" path="res://assets/rat.png" id="7_fjrip"]
+
+[sub_resource type="Animation" id="Animation_tuyoq"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Rect2(0, 0, 200, 8)]
+}
+
+[sub_resource type="Animation" id="Animation_fjrip"]
+resource_name = "feed"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1333, 0.2666, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Rect2(0, 0, 200, 8), Rect2(-1, 0, 200, 8), Rect2(-2, 0, 200, 8), Rect2(-3, 0, 200, 8)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_smehm"]
+_data = {
+&"RESET": SubResource("Animation_tuyoq"),
+&"feed": SubResource("Animation_fjrip")
+}
 
 [node name="Player" type="Node2D"]
 script = ExtResource("1_g2els")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = -2
+texture_repeat = 2
+position = Vector2(-112, -3)
+texture = ExtResource("6_tuyoq")
+region_enabled = true
+region_rect = Rect2(0, 0, 200, 8)
 
 [node name="BarrelRoot" type="Node2D" parent="."]
 
 [node name="TurretBarrel" type="Sprite2D" parent="BarrelRoot"]
 position = Vector2(0, -15)
 rotation = 1.39626
-scale = Vector2(1, 1)
 texture = ExtResource("2_qhqgy")
 offset = Vector2(0, -7)
 
@@ -34,10 +81,19 @@ scale_jiggle = Vector2(0.05, 0.05)
 metadata/_custom_type_script = "uid://bm212sc3bmvsx"
 
 [node name="ShootTimer" type="Timer" parent="."]
-wait_time = 0.2
+wait_time = 0.4
 autostart = true
 
 [node name="ShootMarker" type="Marker2D" parent="."]
 position = Vector2(0, -15)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_smehm")
+}
+
+[node name="Rat" type="Sprite2D" parent="."]
+position = Vector2(10, -6)
+texture = ExtResource("7_fjrip")
 
 [connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]

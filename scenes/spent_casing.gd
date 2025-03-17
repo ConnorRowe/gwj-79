@@ -7,16 +7,20 @@ const GRAVITY := 980.0
 const DAMPING := 15
 
 @onready var sprite_2d: Sprite2D = $Sprite2D
+var main: Main
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	velocity = Vector2(randf_range(40, 60) * (1 if (randf() > .5) else -1), randf_range(-300, -160))
 	create_tween().tween_property(self, "modulate", Color.TRANSPARENT, $ExpirationTimer.wait_time/2).from_current().set_delay($ExpirationTimer.wait_time/2)
+	
+	main = get_tree().current_scene
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	sprite_2d.rotation += velocity.x * delta * randf_range(0.1, .3)
+	main.draw_smoke_trail(Vector2i(global_position))
 
 
 func _physics_process(delta: float) -> void:
