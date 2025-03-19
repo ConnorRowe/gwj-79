@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cwm0j7kfes2jt"]
+[gd_scene load_steps=10 format=3 uid="uid://cwm0j7kfes2jt"]
 
 [ext_resource type="PackedScene" uid="uid://ckj0vgb12l7gj" path="res://scenes/player.tscn" id="1_o5qli"]
 [ext_resource type="Script" uid="uid://edskk6v02fk3" path="res://scenes/main.gd" id="1_sugp2"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://boelhh15qe8dn" path="res://scenes/alien.tscn" id="5_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://ims70vjlah6o" path="res://scenes/crop.tscn" id="6_tefeu"]
 [ext_resource type="PackedScene" uid="uid://cxkjg0gnut4n0" path="res://scenes/coin_stack.tscn" id="7_o6xl0"]
+[ext_resource type="PackedScene" uid="uid://cdngfm7ukauxb" path="res://scenes/seed.tscn" id="7_tipki"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_tbgi4"]
 font = ExtResource("3_jyhfs")
@@ -56,6 +57,9 @@ position = Vector2(88, 113)
 z_index = 1
 offset_right = 320.0
 offset_bottom = 180.0
+
+[node name="Seed" parent="FadingDrawCanvasTexture" instance=ExtResource("7_tipki")]
+position = Vector2(150, 72)
 
 [node name="CoinStack" parent="." instance=ExtResource("7_o6xl0")]
 position = Vector2(278, 178)

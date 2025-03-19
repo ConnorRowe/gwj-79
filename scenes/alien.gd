@@ -14,10 +14,10 @@ var is_dead := false
 
 func _physics_process(_delta: float) -> void:
 	
-	if(velocity.length_squared() > 0):
-		var img = body.sprite_frames.get_frame_texture(body.animation, body.frame).get_image()
-		img.convert(Image.FORMAT_RGBA4444)
-		main.draw_to_image.blend_rect(img, Rect2i(0,0,32,32), body.global_position + body.offset + Vector2(-16,-16))
+	#if(velocity.length_squared() > 0):
+	#	var img = body.sprite_frames.get_frame_texture(body.animation, body.frame).get_image()
+	#	img.convert(Image.FORMAT_RGBA4444)
+	#	main.draw_to_image.blend_rect(img, Rect2i(0,0,32,32), body.global_position + body.offset + Vector2(-16,-16))
 	
 	if dir.length_squared():
 		velocity = dir * SPEED
