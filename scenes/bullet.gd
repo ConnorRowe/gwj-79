@@ -11,8 +11,9 @@ var speed := 200.0
 var damage := 1
 
 
-func init_bullet(bullet_dir: Vector2):
+func init_bullet(bullet_dir: Vector2, dmg: int):
 	dir = bullet_dir
+	damage = dmg
 	rotation = dir.angle() + (PI/2)
 	queue_redraw()
 
@@ -26,8 +27,7 @@ func _draw() -> void:
 
 
 func _on_area_entered(area: Area2D) -> void:
-	if area.owner is Alien and not area.owner.is_dead:
-		area.owner.deal_damage(damage)
+	if area.owner.has_method("deal_damage") and area.owner.deal_damage(damage):
 		GameUtils.spawn_hit_particles(global_position, ALIEN_HIT_COLOUR)
 		queue_free()
 

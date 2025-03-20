@@ -38,6 +38,11 @@ offset_right = 77.0
 offset_bottom = 26.0
 label_settings = SubResource("LabelSettings_tbgi4")
 
+[node name="CropsHolder" type="Node2D" parent="."]
+
+[node name="Crop" parent="CropsHolder" instance=ExtResource("6_tefeu")]
+position = Vector2(88, 113)
+
 [node name="Player" parent="." instance=ExtResource("1_o5qli")]
 position = Vector2(160, 170)
 
@@ -48,18 +53,22 @@ max_zoom_jiggle = 0.005
 decay = 1.5
 
 [node name="Alien" parent="." instance=ExtResource("5_tbgi4")]
-position = Vector2(221, 101)
+position = Vector2(221, 1)
 
-[node name="Crop" parent="." instance=ExtResource("6_tefeu")]
-position = Vector2(88, 113)
+[node name="Seed" parent="." instance=ExtResource("7_tipki")]
+position = Vector2(160, 72)
+
+[node name="Seed2" parent="." instance=ExtResource("7_tipki")]
+position = Vector2(16, 72)
+
+[node name="Seed3" parent="." instance=ExtResource("7_tipki")]
+position = Vector2(301, 72)
 
 [node name="FadingDrawCanvasTexture" type="TextureRect" parent="."]
 z_index = 1
+texture_filter = 1
 offset_right = 320.0
 offset_bottom = 180.0
-
-[node name="Seed" parent="FadingDrawCanvasTexture" instance=ExtResource("7_tipki")]
-position = Vector2(150, 72)
 
 [node name="CoinStack" parent="." instance=ExtResource("7_o6xl0")]
 position = Vector2(278, 178)

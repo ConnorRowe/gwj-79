@@ -19,12 +19,12 @@ const ANGLE_MAX := deg_to_rad(-20)
 @onready var rat: Sprite2D = $Rat
 
 var dir := Vector2.ZERO
-const BASE_FIRE_RATE := 0.4
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	GameStatsInst.stat_changed.connect(game_stat_changed)
+	shoot_timer.wait_time = GameStatsInst.get_stat(GameStats.Stat.FIRE_RATE)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -65,7 +65,7 @@ func shoot() -> void:
 	var bullet = BULLET.instantiate()
 	get_parent().add_child(bullet)
 	bullet.position = shoot_marker.global_position
-	bullet.init_bullet(dir)
+	bullet.init_bullet(dir, GameStatsInst.get_stat(GameStats.Stat.BULLET_DMG))
 	
 	# Emit signal that we shot
 	on_player_shoot.emit()
@@ -79,3 +79,8 @@ func shoot() -> void:
 	var casing = SPENT_CASING.instantiate()
 	get_parent().add_child(casing)
 	casing.position = shoot_marker.global_position
+
+
+func game_stat_changed(stat: GameStats.Stat, value: Variant) -> void:
+	if stat == GameStats.Stat.FIRE_RATE:
+		shoot_timer.wait_time = value

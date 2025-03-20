@@ -1,7 +1,11 @@
 extends Node2D
 
+const MAX_SEED_FRAME := 3
+const CROP = preload("res://scenes/crop.tscn")
+
 @onready var main: Main = get_tree().current_scene
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var seed: Sprite2D = $SeedHolder/Seed
 
 var draw_pixels := true
 
@@ -21,3 +25,19 @@ func _process(delta: float) -> void:
 func seed_fall():
 	animation_player.play("seed_fall")
 	draw_pixels = false
+
+
+func deal_damage(damage: int) -> bool:
+	if seed.frame + 1 > MAX_SEED_FRAME:
+		spawn_crop()
+		queue_free()
+	else:
+		seed.frame += 1
+	
+	return true
+
+
+func spawn_crop() -> void:
+	var crop = CROP.instantiate()
+	main.crops_holder.add_child(crop)
+	crop.position = position

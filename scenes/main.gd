@@ -7,6 +7,7 @@ const SMOKE_COLOUR = Color(Color.GRAY, 0.6)
 @onready var fading_draw_canvas_texture: TextureRect = $FadingDrawCanvasTexture
 @onready var jiggly_camera_2d: JigglyCamera2D = $JigglyCamera2d
 @onready var debug: Label = $Reference/Debug
+@onready var crops_holder: Node2D = $CropsHolder
 var draw_to_image: Image
 var draw_to_texture: ImageTexture
 var draw_image_update_time := 0.0
@@ -68,6 +69,12 @@ func draw_rainbow_line(pos: Vector2i) -> void:
 func draw_smoke_trail(pos: Vector2i) -> void:
 	draw_pixel(pos, SMOKE_COLOUR)
 
+
 func draw_pixel(pos: Vector2i, colour: Color) -> void:
 	if pos.x > 0 and pos.x < 320 and pos.y > 0 and pos.y < 180:
 		draw_to_image.set_pixelv(pos, colour)
+
+
+func get_crops() -> Array:
+	return crops_holder.get_children()
+	

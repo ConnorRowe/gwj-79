@@ -18,6 +18,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 GameUtils="*res://scenes/game_utils.gd"
+GameStatsInst="*res://scenes/game_stats.gd"
 
 [display]
 
