@@ -6,8 +6,8 @@ signal on_player_shoot
 const BULLET = preload("res://scenes/bullet.tscn")
 const SPENT_CASING = preload("res://scenes/spent_casing.tscn")
 
-const ANGLE_MIN := deg_to_rad(-160)
-const ANGLE_MAX := deg_to_rad(-20)
+const ANGLE_MIN := deg_to_rad(-175)
+const ANGLE_MAX := deg_to_rad(-5)
 
 @onready var shoot_marker: Marker2D = $ShootMarker
 @onready var turret_barrel: Sprite2D = $BarrelRoot/TurretBarrel
@@ -40,7 +40,6 @@ func _process(_delta: float) -> void:
 	rat.flip_h = rat.position.x < 0
 
 
-
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("player_shoot"):
 		if shoot_timer.is_stopped():
@@ -57,7 +56,6 @@ func _on_shoot_timer_timeout() -> void:
 		shoot()
 	else:
 		shoot_timer.stop()
-		
 
 
 func shoot() -> void:
@@ -72,8 +70,7 @@ func shoot() -> void:
 	
 	# Jiggle baby
 	barrel_jiggler.jiggle(1)
-	base_jiggler.jiggle(1)
-	
+	base_jiggler.jiggle(1)	
 	
 	# Spawn casing
 	var casing = SPENT_CASING.instantiate()

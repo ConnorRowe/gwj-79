@@ -1,0 +1,23 @@
+[gd_resource type="Theme" load_steps=5 format=3 uid="uid://escslxlmxq8s"]
+
+[ext_resource type="Texture2D" uid="uid://baioi4bsril00" path="res://assets/ui_border.png" id="1_5x3i2"]
+[ext_resource type="FontFile" uid="uid://bpeduc0frp0b2" path="res://assets/font/ConsFont_v2.ttf" id="2_wl1kw"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_wl1kw"]
+texture = ExtResource("1_5x3i2")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 2.0
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lu33j"]
+bg_color = Color(0.67451, 0.196078, 0.196078, 1)
+
+[resource]
+default_font = ExtResource("2_wl1kw")
+ProgressBar/styles/background = SubResource("StyleBoxTexture_wl1kw")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_lu33j")

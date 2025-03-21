@@ -1,11 +1,11 @@
-[gd_scene load_steps=29 format=3 uid="uid://boelhh15qe8dn"]
+[gd_scene load_steps=28 format=3 uid="uid://boelhh15qe8dn"]
 
 [ext_resource type="Script" uid="uid://vag0hr2tvcqw" path="res://scenes/alien.gd" id="1_3vbw7"]
 [ext_resource type="Texture2D" uid="uid://bbn5b1bpbktgv" path="res://assets/shadow.png" id="2_np108"]
 [ext_resource type="Shader" uid="uid://b5s2qc8xhf2ac" path="res://shaders/disintegrate.gdshader" id="3_kufd8"]
 [ext_resource type="Texture2D" uid="uid://duc8ypwt7up8b" path="res://assets/alien.png" id="3_vxp04"]
-[ext_resource type="FastNoiseLite" uid="uid://deo7ha8cfmopt" path="res://assets/new_fast_noise_lite.tres" id="4_kufd8"]
 [ext_resource type="PackedScene" uid="uid://d3rrr2sykov13" path="res://scenes/Jiggler.tscn" id="4_np108"]
+[ext_resource type="Texture2D" uid="uid://byomc0v71rf2d" path="res://assets/enemy_fade_pattern.png" id="4_xd2hs"]
 [ext_resource type="Texture2D" uid="uid://hjo3ycttjkbs" path="res://assets/laser1.png" id="7_xd2hs"]
 [ext_resource type="Texture2D" uid="uid://cuxbuo646qx8f" path="res://assets/laser2.png" id="8_s6rwo"]
 [ext_resource type="Texture2D" uid="uid://dxumkit0wf4ag" path="res://assets/laser3.png" id="9_s03fr"]
@@ -72,6 +72,18 @@ tracks/4/keys = {
 "update": 0,
 "values": [Vector2(0, -18)]
 }
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Body:material:shader_parameter/deadColourAlpha")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
 
 [sub_resource type="Animation" id="Animation_87urc"]
 resource_name = "die"
@@ -83,10 +95,10 @@ tracks/0/path = NodePath("Body:material:shader_parameter/disintegrateAlpha")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0, 0.2, 0.3, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
-"values": [0.0, 1.0]
+"values": [0.0, 0.5, 0.5, 1.0]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -99,6 +111,18 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 0.411765), Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Body:material:shader_parameter/deadColourAlpha")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.233333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
 }
 
 [sub_resource type="Animation" id="Animation_kufd8"]
@@ -150,16 +174,14 @@ _data = {
 &"hover": SubResource("Animation_kufd8")
 }
 
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_kufd8"]
-width = 192
-height = 32
-generate_mipmaps = false
-noise = ExtResource("4_kufd8")
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xd2hs"]
+resource_local_to_scene = true
 shader = ExtResource("3_kufd8")
-shader_parameter/noiseSampler = SubResource("NoiseTexture2D_kufd8")
+shader_parameter/noiseSampler = ExtResource("4_xd2hs")
 shader_parameter/disintegrateAlpha = 0.0
+shader_parameter/framesX = 6
+shader_parameter/deadColour = Color(1, 0, 0, 1)
+shader_parameter/deadColourAlpha = 0.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3vbw7"]
 atlas = ExtResource("3_vxp04")
@@ -220,6 +242,33 @@ frame_1/duration = 0.1
 frame_2/texture = ExtResource("9_s03fr")
 frame_2/duration = 0.1
 
+[sub_resource type="Animation" id="Animation_s6rwo"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:width")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [2.0]
+}
+
 [sub_resource type="Animation" id="Animation_xd2hs"]
 resource_name = "shoot_laser"
 length = 2.0
@@ -264,33 +313,6 @@ tracks/2/keys = {
 }]
 }
 
-[sub_resource type="Animation" id="Animation_s6rwo"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:width")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [2.0]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_s03fr"]
 _data = {
 &"RESET": SubResource("Animation_s6rwo"),
@@ -320,6 +342,7 @@ libraries = {
 autoplay = "hover"
 
 [node name="Body" type="AnimatedSprite2D" parent="."]
+texture_repeat = 2
 material = SubResource("ShaderMaterial_xd2hs")
 sprite_frames = SubResource("SpriteFrames_xd2hs")
 animation = &"blink"
@@ -336,16 +359,15 @@ max_rotation_jiggle = 0.1
 [node name="EyeMarker" type="Marker2D" parent="Body"]
 position = Vector2(0, -18)
 
-[node name="Line2D" type="Line2D" parent="Body/EyeMarker"]
+[node name="AttackLine2D" type="Line2D" parent="Body/EyeMarker"]
 visible = false
 texture_repeat = 2
-position = Vector2(-21, 9)
-points = PackedVector2Array(21, -9, 105, -16)
+points = PackedVector2Array(0, 0, 105, -16)
 width = 2.0
 texture = SubResource("AnimatedTexture_ek445")
 texture_mode = 1
 
-[node name="AttackAnimationPlayer" type="AnimationPlayer" parent="Body/EyeMarker/Line2D"]
+[node name="AttackAnimationPlayer" type="AnimationPlayer" parent="Body/EyeMarker/AttackLine2D"]
 libraries = {
 &"": SubResource("AnimationLibrary_s03fr")
 }

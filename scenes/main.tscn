@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cwm0j7kfes2jt"]
+[gd_scene load_steps=12 format=3 uid="uid://cwm0j7kfes2jt"]
 
 [ext_resource type="PackedScene" uid="uid://ckj0vgb12l7gj" path="res://scenes/player.tscn" id="1_o5qli"]
 [ext_resource type="Script" uid="uid://edskk6v02fk3" path="res://scenes/main.gd" id="1_sugp2"]
@@ -8,6 +8,8 @@
 [ext_resource type="PackedScene" uid="uid://ims70vjlah6o" path="res://scenes/crop.tscn" id="6_tefeu"]
 [ext_resource type="PackedScene" uid="uid://cxkjg0gnut4n0" path="res://scenes/coin_stack.tscn" id="7_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://cdngfm7ukauxb" path="res://scenes/seed.tscn" id="7_tipki"]
+[ext_resource type="Theme" uid="uid://escslxlmxq8s" path="res://assets/theme.tres" id="9_85g3d"]
+[ext_resource type="PackedScene" uid="uid://b8heav68samld" path="res://scenes/shop_bell.tscn" id="10_choun"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_tbgi4"]
 font = ExtResource("3_jyhfs")
@@ -41,7 +43,7 @@ label_settings = SubResource("LabelSettings_tbgi4")
 [node name="CropsHolder" type="Node2D" parent="."]
 
 [node name="Crop" parent="CropsHolder" instance=ExtResource("6_tefeu")]
-position = Vector2(88, 113)
+position = Vector2(88, 88)
 
 [node name="Player" parent="." instance=ExtResource("1_o5qli")]
 position = Vector2(160, 170)
@@ -53,7 +55,7 @@ max_zoom_jiggle = 0.005
 decay = 1.5
 
 [node name="Alien" parent="." instance=ExtResource("5_tbgi4")]
-position = Vector2(221, 1)
+position = Vector2(300, 2)
 
 [node name="Seed" parent="." instance=ExtResource("7_tipki")]
 position = Vector2(160, 72)
@@ -73,4 +75,37 @@ offset_bottom = 180.0
 [node name="CoinStack" parent="." instance=ExtResource("7_o6xl0")]
 position = Vector2(278, 178)
 
+[node name="GUI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 320.0
+offset_bottom = 180.0
+theme = ExtResource("9_85g3d")
+
+[node name="HealthBar" type="ProgressBar" parent="GUI"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -132.0
+offset_top = -16.0
+offset_right = -8.0
+offset_bottom = -6.0
+grow_horizontal = 0
+grow_vertical = 0
+step = 1.0
+value = 100.0
+show_percentage = false
+
+[node name="ShopBell" parent="." instance=ExtResource("10_choun")]
+z_index = 4
+position = Vector2(0, 39)
+
+[node name="EnemySpawnTimer" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
+
 [connection signal="on_player_shoot" from="Player" to="." method="_on_player_on_player_shoot"]
+[connection signal="timeout" from="EnemySpawnTimer" to="." method="_on_enemy_spawn_timer_timeout"]

@@ -1,7 +1,7 @@
 extends Node2D
 
 @onready var sprite_2d: Sprite2D = $Sprite2D
-var main: Node2D
+var main: Main
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 # Called when the node enters the scene tree for the first time.
@@ -14,4 +14,5 @@ func _process(_delta: float) -> void:
 
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
+	main.coin_stack.add_coin()
 	queue_free()

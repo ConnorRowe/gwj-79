@@ -40,3 +40,11 @@ func spawn_carrot() -> void:
 func spawn_dirt_particles() -> void:
 	GameUtils.spawn_hit_particles(global_position + Vector2(0, -10), DIRT_COLOUR)
 	current_growth_step = 0
+
+
+func deal_damage(_dmg: int) -> void:
+	if current_growth_step < MAX_GROWTH_STEP:
+		if current_growth_step > 0:
+			current_growth_step -= 1
+			sprite_2d.frame = current_growth_step
+		grow_timer.start()

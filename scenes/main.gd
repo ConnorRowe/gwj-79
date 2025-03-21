@@ -3,15 +3,20 @@ extends Node2D
 
 const DRAW_IMAGE_UPDATE_INTERVAL := 1.0 / 30.0
 const SMOKE_COLOUR = Color(Color.GRAY, 0.6)
+const ALIEN = preload("res://scenes/alien.tscn")
 
 @onready var fading_draw_canvas_texture: TextureRect = $FadingDrawCanvasTexture
 @onready var jiggly_camera_2d: JigglyCamera2D = $JigglyCamera2d
 @onready var debug: Label = $Reference/Debug
 @onready var crops_holder: Node2D = $CropsHolder
+@onready var health_bar: ProgressBar = $GUI/HealthBar
+@onready var coin_stack: CoinStack = $CoinStack
+
 var draw_to_image: Image
 var draw_to_texture: ImageTexture
 var draw_image_update_time := 0.0
 var cursor_colour := Color(Color.RED, 0.4)
+var health := 100
 
 var rainbow_line: Image = preload("res://assets/rainbow_line.png").get_image()
 
@@ -77,4 +82,20 @@ func draw_pixel(pos: Vector2i, colour: Color) -> void:
 
 func get_crops() -> Array:
 	return crops_holder.get_children()
-	
+
+
+func deal_damage(dmg: int) -> void:
+	health -= dmg
+	health_bar.value = health
+	if health <= 0:
+		game_over()
+
+
+func game_over() -> void:
+	pass
+
+
+func _on_enemy_spawn_timer_timeout() -> void:
+	var alien = ALIEN.instantiate()
+	add_child(alien)
+	alien.position = Vector2(randf_range(60, 300), randf_range(-12, -8))

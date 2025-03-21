@@ -1,3 +1,4 @@
+class_name CoinStack
 extends Node2D
 
 const ANIMATED_COIN = preload("res://scenes/animated_coin.tscn")

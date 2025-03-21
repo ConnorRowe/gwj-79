@@ -1,0 +1,61 @@
+[gd_scene load_steps=8 format=3 uid="uid://b8heav68samld"]
+
+[ext_resource type="Script" uid="uid://bajnlumgj346a" path="res://scenes/shop_bell.gd" id="1_75my2"]
+[ext_resource type="Texture2D" uid="uid://b50iur5wn3rqg" path="res://assets/shop_sign.png" id="1_es5g3"]
+[ext_resource type="Texture2D" uid="uid://cpt21f1rvwst4" path="res://assets/bell.png" id="2_75my2"]
+[ext_resource type="PackedScene" uid="uid://d3rrr2sykov13" path="res://scenes/Jiggler.tscn" id="4_t5ajo"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_t5ajo"]
+radius = 5.09902
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gnu6t"]
+size = Vector2(10, 22)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_es5g3"]
+radius = 17.0
+
+[node name="ShopBell" type="Node2D"]
+script = ExtResource("1_75my2")
+
+[node name="SignSprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_es5g3")
+centered = false
+
+[node name="StaticBody2D" type="StaticBody2D" parent="SignSprite"]
+position = Vector2(32, 40)
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SignSprite/StaticBody2D"]
+shape = SubResource("CircleShape2D_t5ajo")
+
+[node name="BellRigidBody" type="RigidBody2D" parent="."]
+position = Vector2(32, 43)
+mass = 2.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BellRigidBody"]
+position = Vector2(0, 8)
+shape = SubResource("RectangleShape2D_gnu6t")
+
+[node name="BellSprite" type="Sprite2D" parent="BellRigidBody"]
+texture = ExtResource("2_75my2")
+centered = false
+offset = Vector2(-16, -4)
+
+[node name="BellJiggler" parent="BellRigidBody/BellSprite" instance=ExtResource("4_t5ajo")]
+max_position_jiggle = Vector2(2, 2)
+scale_jiggle = Vector2(0.1, 0.1)
+
+[node name="BulletArea2D" type="Area2D" parent="BellRigidBody"]
+position = Vector2(0, 10)
+collision_layer = 2
+collision_mask = 2
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BellRigidBody/BulletArea2D"]
+shape = SubResource("CircleShape2D_es5g3")
+
+[node name="PinJoint2D" type="PinJoint2D" parent="."]
+position = Vector2(32, 43)
+node_a = NodePath("../SignSprite/StaticBody2D")
+node_b = NodePath("../BellRigidBody")

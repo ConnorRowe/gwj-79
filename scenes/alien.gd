@@ -13,7 +13,8 @@ enum EnemyState
 @onready var body: AnimatedSprite2D = $Body
 @onready var jiggler: Jiggler = $Body/Jiggler
 @onready var main: Main = get_tree().current_scene
-@onready var attack_animation_player: AnimationPlayer = $Body/EyeMarker/Line2D/AttackAnimationPlayer
+@onready var attack_animation_player: AnimationPlayer = $Body/EyeMarker/AttackLine2D/AttackAnimationPlayer
+@onready var attack_line_2d: Line2D = $Body/EyeMarker/AttackLine2D
 
 const SPEED = 20.0
 var dir := Vector2.LEFT
@@ -35,17 +36,24 @@ func _physics_process(_delta: float) -> void:
 	#	main.draw_to_image.blend_rect(img, Rect2i(0,0,32,32), body.global_position + body.offset + Vector2(-16,-16))
 	
 	match state:
-		EnemyState.DAMAGE_CROP, EnemyState.DAMAGE_PLAYER:
+		EnemyState.DAMAGE_PLAYER:
 			dir = Vector2.ZERO
 		EnemyState.WALK_DOWN:
 			dir = Vector2.DOWN
+			if (position.y >= 130):
+				change_state(EnemyState.DAMAGE_PLAYER)
 		EnemyState.WALK_TO_CROP:
 			if is_instance_valid(target):
 				if position.distance_squared_to(target.position) <= 400:
-					state = EnemyState.DAMAGE_CROP
-					dir = Vector2.ZERO
+					change_state(EnemyState.DAMAGE_CROP)
 				else:
 					dir = position.direction_to(target.position)
+		EnemyState.DAMAGE_CROP:
+			if is_instance_valid(target):
+				attack_line_2d.remove_point(1)
+				attack_line_2d.add_point(attack_line_2d.to_local(target.global_position))
+			else:
+				change_state(EnemyState.WALK_DOWN)
 		
 	if dir.length_squared():
 		velocity = dir * SPEED
@@ -104,20 +112,36 @@ func _on_ai_timer_timeout() -> void:
 					printerr("Closest crop was not valid!")
 				else:
 					target = closest
-					state = EnemyState.WALK_TO_CROP
+					change_state(EnemyState.WALK_TO_CROP)
 		
 		
 		EnemyState.DAMAGE_CROP:
 			if not is_instance_valid(target):
-				state = EnemyState.WALK_DOWN
+				change_state(EnemyState.WALK_DOWN)
 
 
-func change_state(state: EnemyState) -> void:
+func change_state(new_state: EnemyState) -> void:
+	# Old state
 	match state:
 		EnemyState.DAMAGE_CROP, EnemyState.DAMAGE_PLAYER:
+			attack_animation_player.stop()
+			attack_line_2d.visible = false
+	
+	# New state
+	match new_state:
+		EnemyState.DAMAGE_CROP:
 			attack_animation_player.play("shoot_laser")
-
+			dir = Vector2.ZERO
+		EnemyState.DAMAGE_PLAYER:
+			attack_animation_player.play("shoot_laser")
+			target = main
+			dir = Vector2.ZERO
+			attack_line_2d.remove_point(1)
+			attack_line_2d.add_point(Vector2(0,100))
+	
+	state = new_state
 
 
 func do_damage() -> void:
-	pass
+	if is_instance_valid(target) and target.has_method("deal_damage"):
+		target.deal_damage(1)
