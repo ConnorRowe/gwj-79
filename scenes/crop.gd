@@ -34,7 +34,7 @@ func spawn_carrot() -> void:
 	crop_life -= 1
 	if crop_life <= 0:
 		grow_timer.stop()
-		animation_player.animation_finished.connect(func (x): queue_free())
+		animation_player.animation_finished.connect(func (_x): queue_free())
 
 
 func spawn_dirt_particles() -> void:

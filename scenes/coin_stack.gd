@@ -1,6 +1,8 @@
 class_name CoinStack
 extends Node2D
 
+signal on_coin_count_changed(new_count: int)
+
 const ANIMATED_COIN = preload("res://scenes/animated_coin.tscn")
 const COIN_SIDE = preload("res://assets/coin_side.png")
 
@@ -8,14 +10,6 @@ const COIN_SIDE = preload("res://assets/coin_side.png")
 
 var coin_count := 0
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_end"):
@@ -29,6 +23,8 @@ func add_coin() -> void:
 	new_coin.position.x = randi_range(-4, 4)
 	new_coin.position.y = coin_count * -4
 	new_coin.visible = false
+	new_coin.centered = false
+	new_coin.offset = Vector2(-15, -3)
 	
 	var anim_coin = ANIMATED_COIN.instantiate()
 	add_child(anim_coin)
@@ -37,7 +33,17 @@ func add_coin() -> void:
 	#anim_coin.tree_exiting.connect(func(): new_coin.visible = true)
 	
 	coin_count += 1
+	
+	on_coin_count_changed.emit(coin_count)
 
 
 func unhide_coin(coin: Sprite2D):
 	coin.visible = true
+
+
+func remove_coins(num: int) -> void:
+	coin_count -= num
+	for i in range(num):
+		coins.remove_child(coins.get_child(coins.get_child_count() - 1))
+	
+	on_coin_count_changed.emit(coin_count)

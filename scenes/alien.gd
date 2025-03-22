@@ -29,7 +29,9 @@ func _ready() -> void:
 
 
 func _physics_process(_delta: float) -> void:
-	
+	if (position.y >= 150):
+		die()
+
 	#if(velocity.length_squared() > 0):
 	#	var img = body.sprite_frames.get_frame_texture(body.animation, body.frame).get_image()
 	#	img.convert(Image.FORMAT_RGBA4444)

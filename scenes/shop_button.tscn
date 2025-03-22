@@ -1,0 +1,98 @@
+[gd_scene load_steps=14 format=3 uid="uid://dff3jty4ru1ov"]
+
+[ext_resource type="Script" uid="uid://cnu555g0fh0yt" path="res://scenes/shop_button.gd" id="1_a34ft"]
+[ext_resource type="Texture2D" uid="uid://cfc2w2gowke3n" path="res://assets/button_up.png" id="2_hv2j0"]
+[ext_resource type="Texture2D" uid="uid://d3td460d2hlqx" path="res://assets/button_down.png" id="3_u16r7"]
+[ext_resource type="Texture2D" uid="uid://csnkmujiip1t4" path="res://assets/coin_slot.png" id="4_fw2g7"]
+[ext_resource type="Texture2D" uid="uid://c11gk2awuixe5" path="res://assets/button_hover.png" id="4_u16r7"]
+[ext_resource type="Theme" uid="uid://escslxlmxq8s" path="res://assets/theme.tres" id="5_28rfx"]
+[ext_resource type="Texture2D" uid="uid://cmdpsvj0s7rf7" path="res://assets/mini_coin.png" id="6_hv2j0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a34ft"]
+atlas = ExtResource("4_fw2g7")
+region = Rect2(10, 0, 10, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hv2j0"]
+atlas = ExtResource("4_fw2g7")
+region = Rect2(20, 0, 10, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u16r7"]
+atlas = ExtResource("4_fw2g7")
+region = Rect2(30, 0, 10, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fw2g7"]
+atlas = ExtResource("4_fw2g7")
+region = Rect2(40, 0, 10, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_28rfx"]
+atlas = ExtResource("4_fw2g7")
+region = Rect2(0, 0, 10, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7cno0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a34ft")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hv2j0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u16r7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fw2g7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_28rfx")
+}],
+"loop": false,
+"name": &"default",
+"speed": 10.0
+}]
+
+[node name="ShopButton" type="Node2D"]
+script = ExtResource("1_a34ft")
+
+[node name="TextureButton" type="TextureButton" parent="."]
+offset_left = 10.0
+offset_top = -14.0
+offset_right = 38.0
+offset_bottom = 15.0
+texture_normal = ExtResource("2_hv2j0")
+texture_pressed = ExtResource("3_u16r7")
+texture_hover = ExtResource("4_u16r7")
+
+[node name="SlotSprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_7cno0")
+frame = 4
+frame_progress = 1.0
+
+[node name="ItemLabel" type="Label" parent="."]
+offset_left = -32.0
+offset_top = -59.0
+offset_right = 59.0
+offset_bottom = -16.0
+theme = ExtResource("5_28rfx")
+theme_override_constants/line_spacing = -5
+text = "Item name
+lvl 1"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="CostLabel" type="Label" parent="."]
+self_modulate = Color(0.67451, 0.196078, 0.196078, 1)
+offset_left = -33.0
+offset_top = -36.0
+offset_right = 58.0
+offset_bottom = 7.0
+theme = ExtResource("5_28rfx")
+theme_override_constants/line_spacing = -5
+text = "x1"
+vertical_alignment = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-37, 0)
+texture = ExtResource("6_hv2j0")
+
+[connection signal="pressed" from="TextureButton" to="." method="_on_texture_button_pressed"]

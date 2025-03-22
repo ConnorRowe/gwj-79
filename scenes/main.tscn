@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://cwm0j7kfes2jt"]
+[gd_scene load_steps=13 format=3 uid="uid://cwm0j7kfes2jt"]
 
 [ext_resource type="PackedScene" uid="uid://ckj0vgb12l7gj" path="res://scenes/player.tscn" id="1_o5qli"]
 [ext_resource type="Script" uid="uid://edskk6v02fk3" path="res://scenes/main.gd" id="1_sugp2"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://cdngfm7ukauxb" path="res://scenes/seed.tscn" id="7_tipki"]
 [ext_resource type="Theme" uid="uid://escslxlmxq8s" path="res://assets/theme.tres" id="9_85g3d"]
 [ext_resource type="PackedScene" uid="uid://b8heav68samld" path="res://scenes/shop_bell.tscn" id="10_choun"]
+[ext_resource type="PackedScene" uid="uid://d6cu5dj85h13" path="res://scenes/shop.tscn" id="11_ya4ey"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_tbgi4"]
 font = ExtResource("3_jyhfs")
@@ -106,6 +107,9 @@ position = Vector2(0, 39)
 [node name="EnemySpawnTimer" type="Timer" parent="."]
 wait_time = 5.0
 autostart = true
+
+[node name="Shop" parent="." instance=ExtResource("11_ya4ey")]
+z_index = 7
 
 [connection signal="on_player_shoot" from="Player" to="." method="_on_player_on_player_shoot"]
 [connection signal="timeout" from="EnemySpawnTimer" to="." method="_on_enemy_spawn_timer_timeout"]

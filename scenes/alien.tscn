@@ -180,7 +180,7 @@ shader = ExtResource("3_kufd8")
 shader_parameter/noiseSampler = ExtResource("4_xd2hs")
 shader_parameter/disintegrateAlpha = 0.0
 shader_parameter/framesX = 6
-shader_parameter/deadColour = Color(1, 0, 0, 1)
+shader_parameter/deadColour = Color(0.67451, 0.196078, 0.196078, 1)
 shader_parameter/deadColourAlpha = 0.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3vbw7"]

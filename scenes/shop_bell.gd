@@ -4,17 +4,8 @@ extends Node2D
 @onready var bell_jiggler: Jiggler = $BellRigidBody/BellSprite/BellJiggler
 var opening_shop := false
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-
-
-func deal_damage(dmg: int) -> void:
+func deal_damage(_dmg: int) -> void:
 	bell_rigid_body.apply_impulse(Vector2.LEFT * 1600, Vector2.RIGHT * 32)
 	bell_jiggler.jiggle(1)
 	
