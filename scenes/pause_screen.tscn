@@ -1,0 +1,92 @@
+[gd_scene load_steps=7 format=3 uid="uid://bfljf5hjymf0y"]
+
+[ext_resource type="Script" uid="uid://cfweqhjr61ldg" path="res://scenes/pause_screen.gd" id="1_27awe"]
+[ext_resource type="Shader" uid="uid://bruxtcivs5xq4" path="res://shaders/bg_ripple.gdshader" id="1_qeunj"]
+[ext_resource type="Texture2D" uid="uid://cn0bvcfgipy4v" path="res://assets/checkerboard2.png" id="2_hr2n2"]
+[ext_resource type="Theme" uid="uid://escslxlmxq8s" path="res://assets/theme.tres" id="3_hr2n2"]
+[ext_resource type="PackedScene" uid="uid://bk60eq71bns8l" path="res://scenes/sound_settings.tscn" id="5_duq8p"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_27awe"]
+shader = ExtResource("1_qeunj")
+shader_parameter/ripple_x = true
+shader_parameter/alpha = 0.7
+
+[node name="PauseScreen" type="Control"]
+process_mode = 2
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_27awe")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_27awe")
+layout_mode = 0
+offset_left = -1.0
+offset_top = -1.0
+offset_right = 321.0
+offset_bottom = 181.0
+texture = ExtResource("2_hr2n2")
+stretch_mode = 1
+
+[node name="PausedLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_hr2n2")
+text = "paused"
+horizontal_alignment = 1
+
+[node name="QuitButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.944444
+anchor_right = 0.5
+anchor_bottom = 0.944444
+offset_left = -23.5
+offset_top = -17.0
+offset_right = 23.5
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("3_hr2n2")
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="QuitButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "x Quit"
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[node name="SoundSettings" parent="." instance=ExtResource("5_duq8p")]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -47.0
+offset_right = -47.0
+grow_horizontal = 0
+
+[connection signal="pressed" from="QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -8,7 +8,6 @@ const MAX_GROWTH_STEP := 8
 @onready var carrot: Sprite2D = $Carrot
 @onready var grow_timer: Timer = $GrowTimer
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
-@onready var target_carrot_global_pos: Vector2 = $CarrotMarker.global_position
 @onready var crop_life = GameStatsInst.get_stat(GameStats.Stat.CROP_LIFE)
 
 var current_growth_step := 0
@@ -27,8 +26,8 @@ func _on_grow_timer_timeout() -> void:
 
 func spawn_carrot() -> void:
 	var wabbit = WABBIT.instantiate()
-	get_tree().current_scene.add_child(wabbit)
-	wabbit.position = target_carrot_global_pos
+	add_sibling(wabbit)
+	wabbit.global_position = $CarrotMarker.global_position
 	animation_player.play("shoot_carrot_up")
 	
 	crop_life -= 1
@@ -42,9 +41,13 @@ func spawn_dirt_particles() -> void:
 	current_growth_step = 0
 
 
-func deal_damage(_dmg: int) -> void:
+func deal_damage(dmg: int) -> void:
 	if current_growth_step < MAX_GROWTH_STEP:
-		if current_growth_step > 0:
-			current_growth_step -= 1
-			sprite_2d.frame = current_growth_step
+		current_growth_step -= dmg
+		
+		if current_growth_step < 0:
+			queue_free()
+			return
+		
+		sprite_2d.frame = current_growth_step
 		grow_timer.start()

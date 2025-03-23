@@ -1,5 +1,7 @@
 extends Node2D
 
+signal on_bell_rung
+
 @onready var bell_rigid_body: RigidBody2D = $BellRigidBody
 @onready var bell_jiggler: Jiggler = $BellRigidBody/BellSprite/BellJiggler
 var opening_shop := false
@@ -15,8 +17,6 @@ func deal_damage(_dmg: int) -> void:
 
 
 func open_shop() -> void:
-	pass
-
-
-func close_shop() -> void:
-	pass
+	on_bell_rung.emit()
+	opening_shop = false
+	

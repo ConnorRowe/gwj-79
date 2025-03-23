@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://d6cu5dj85h13"]
+[gd_scene load_steps=25 format=3 uid="uid://d6cu5dj85h13"]
 
 [ext_resource type="PackedScene" uid="uid://dff3jty4ru1ov" path="res://scenes/shop_button.tscn" id="1_lx5au"]
 [ext_resource type="Script" uid="uid://dmrapenmsdurl" path="res://scenes/shop.gd" id="1_y6sft"]
@@ -9,9 +9,12 @@
 [ext_resource type="Texture2D" uid="uid://bdhtnl7jlxsrs" path="res://assets/speech_box_border.png" id="7_m4ofw"]
 [ext_resource type="Texture2D" uid="uid://dbrthv8xxlsny" path="res://assets/speech_doodad.png" id="8_heatd"]
 [ext_resource type="FontFile" uid="uid://bxpu632mf8itb" path="res://assets/font/Connor4px.ttf" id="8_m4ofw"]
+[ext_resource type="Theme" uid="uid://escslxlmxq8s" path="res://assets/theme.tres" id="10_heatd"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2fc2m"]
 shader = ExtResource("2_1l46r")
+shader_parameter/ripple_x = false
+shader_parameter/alpha = 0.7
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ajxib"]
 atlas = ExtResource("5_8r1wq")
@@ -110,6 +113,7 @@ expand_margin_right = 3.0
 expand_margin_bottom = 3.0
 
 [node name="Shop" type="Node2D"]
+process_mode = 3
 script = ExtResource("1_y6sft")
 
 [node name="TextureRect" type="TextureRect" parent="."]
@@ -122,9 +126,22 @@ texture = ExtResource("3_032fp")
 stretch_mode = 1
 
 [node name="ShopButton" parent="." instance=ExtResource("1_lx5au")]
-position = Vector2(87, 64)
+position = Vector2(10, 8)
 item_text = "Turret Feed Rate"
 stat_boost_per_level = -0.1
+cost_increase_nlog_multiplier = 2.0
+
+[node name="ShopButton2" parent="." instance=ExtResource("1_lx5au")]
+position = Vector2(117, 8)
+item_text = "Propulsion Power"
+stat = 0
+cost_increase_nlog_multiplier = 3.0
+
+[node name="ShopButton3" parent="." instance=ExtResource("1_lx5au")]
+position = Vector2(223, 8)
+item_text = "Carrot Fertiliser"
+stat = 1
+cost_increase_nlog_multiplier = 3.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(5, 113)
@@ -143,9 +160,9 @@ anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 5.0
-offset_top = 76.0
+offset_top = 84.0
 offset_right = 131.0
-offset_bottom = 122.0
+offset_bottom = 130.0
 grow_vertical = 0
 theme_override_constants/separation = 3
 
@@ -173,4 +190,24 @@ stretch_mode = 2
 wait_time = 2.0
 autostart = true
 
+[node name="BackButton" type="Button" parent="."]
+offset_left = 138.0
+offset_top = 155.0
+offset_right = 185.0
+offset_bottom = 172.0
+theme = ExtResource("10_heatd")
+
+[node name="Label" type="Label" parent="BackButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "< Back"
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+
 [connection signal="timeout" from="BlinkTimer" to="." method="_on_blink_timer_timeout"]
+[connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]

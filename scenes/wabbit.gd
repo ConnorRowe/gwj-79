@@ -6,7 +6,7 @@ var main: Main
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	main = get_parent()
+	main = get_tree().current_scene
 	animation_player.play("eat_carrot")
 
 func _process(_delta: float) -> void:

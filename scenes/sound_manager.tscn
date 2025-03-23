@@ -1,0 +1,58 @@
+[gd_scene load_steps=10 format=3 uid="uid://dk8bnpa3ri0le"]
+
+[ext_resource type="Script" uid="uid://c2llbltp6rjsy" path="res://scenes/sound_manager.gd" id="1_gbdfy"]
+[ext_resource type="AudioStream" uid="uid://cmsfi2vl2upu6" path="res://assets/sound/pip.wav" id="2_ro3ww"]
+[ext_resource type="AudioStream" uid="uid://kuayfgkarn8q" path="res://assets/sound/pop.wav" id="3_v1pt3"]
+[ext_resource type="AudioStream" uid="uid://n05glk5a1xqu" path="res://assets/sound/enemy-dmg.wav" id="4_mpi5b"]
+[ext_resource type="AudioStream" uid="uid://sy2okeid2m64" path="res://assets/sound/shoot.wav" id="5_aa63w"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_k1d7a"]
+random_pitch = 1.2
+streams_count = 1
+stream_0/stream = ExtResource("2_ro3ww")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_gb18h"]
+random_pitch = 1.2
+streams_count = 1
+stream_0/stream = ExtResource("3_v1pt3")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_ro3ww"]
+random_pitch = 1.2
+streams_count = 1
+stream_0/stream = ExtResource("4_mpi5b")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_wwv6j"]
+random_pitch = 1.1
+random_volume_offset_db = 0.2
+streams_count = 1
+stream_0/stream = ExtResource("5_aa63w")
+
+[node name="SoundManager" type="Node"]
+process_mode = 3
+script = ExtResource("1_gbdfy")
+
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
+bus = &"Music"
+
+[node name="PipPlayer" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_k1d7a")
+max_polyphony = 3
+bus = &"SFX"
+
+[node name="PopPlayer" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_gb18h")
+volume_db = -3.817
+max_polyphony = 3
+bus = &"SFX"
+
+[node name="EnemyHurtPlayer" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_ro3ww")
+volume_db = -5.298
+max_polyphony = 3
+bus = &"SFX"
+
+[node name="ShootPlayer" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_wwv6j")
+volume_db = -12.0
+pitch_scale = 1.14
+bus = &"SFX"

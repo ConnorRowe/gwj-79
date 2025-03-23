@@ -10,4 +10,4 @@ func _ready() -> void:
 
 func _on_mouse_entered():
 	jiggler.jiggle(1)
-	SoundManager.wobble()
+	SoundManager.pip()

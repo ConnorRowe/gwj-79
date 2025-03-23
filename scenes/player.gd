@@ -65,6 +65,9 @@ func shoot() -> void:
 	bullet.position = shoot_marker.global_position
 	bullet.init_bullet(dir, GameStatsInst.get_stat(GameStats.Stat.BULLET_DMG))
 	
+	# Sound
+	SoundManager.shoot()
+	
 	# Emit signal that we shot
 	on_player_shoot.emit()
 	

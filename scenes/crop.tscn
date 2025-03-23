@@ -121,6 +121,7 @@ offset = Vector2(0, -11)
 hframes = 10
 
 [node name="GrowTimer" type="Timer" parent="."]
+wait_time = 1.5
 autostart = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

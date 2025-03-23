@@ -1,3 +1,4 @@
+class_name Bullet
 extends Area2D
 
 const ALIEN_HIT_COLOUR := Color("#99e550")
@@ -29,6 +30,7 @@ func _draw() -> void:
 func _on_area_entered(area: Area2D) -> void:
 	if area.owner.has_method("deal_damage") and area.owner.deal_damage(damage):
 		GameUtils.spawn_hit_particles(global_position, ALIEN_HIT_COLOUR)
+		SoundManager.enemy_hurt()
 		queue_free()
 
 

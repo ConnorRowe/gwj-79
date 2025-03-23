@@ -1,0 +1,111 @@
+[gd_scene load_steps=12 format=3 uid="uid://h8gfsoarutf7"]
+
+[ext_resource type="Shader" uid="uid://bruxtcivs5xq4" path="res://shaders/bg_ripple.gdshader" id="1_ekxnf"]
+[ext_resource type="Theme" uid="uid://escslxlmxq8s" path="res://assets/theme.tres" id="1_wu84c"]
+[ext_resource type="Script" uid="uid://bvaxt3ufhjjaf" path="res://scenes/main_menu.gd" id="2_8ln24"]
+[ext_resource type="Texture2D" uid="uid://dbt6378dj2afr" path="res://assets/checkerboard3.png" id="2_bqqt6"]
+[ext_resource type="PackedScene" uid="uid://bk60eq71bns8l" path="res://scenes/sound_settings.tscn" id="3_bqqt6"]
+[ext_resource type="Script" uid="uid://iocwnrarl4tu" path="res://scenes/JiggleControlOnHover.gd" id="6_oa1go"]
+[ext_resource type="PackedScene" uid="uid://g03jl3msomfx" path="res://scenes/ControlJiggler.tscn" id="6_rtw2f"]
+[ext_resource type="FontFile" uid="uid://bxpu632mf8itb" path="res://assets/font/Connor4px.ttf" id="8_jk1qb"]
+[ext_resource type="PackedScene" uid="uid://d76fp0t0n4f8" path="res://scenes/intro_anim.tscn" id="8_tbmy8"]
+[ext_resource type="PackedScene" uid="uid://daf0rgf0sjqbp" path="res://scenes/transition.tscn" id="10_5dd4i"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ekxnf"]
+shader = ExtResource("1_ekxnf")
+shader_parameter/ripple_x = true
+shader_parameter/alpha = 1.0
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_wu84c")
+script = ExtResource("2_8ln24")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_ekxnf")
+layout_mode = 0
+offset_left = -1.0
+offset_top = -1.0
+offset_right = 321.0
+offset_bottom = 181.0
+texture = ExtResource("2_bqqt6")
+stretch_mode = 1
+
+[node name="SoundSettings" parent="." instance=ExtResource("3_bqqt6")]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -45.0
+offset_right = -45.0
+grow_horizontal = 0
+
+[node name="PlayButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -27.0
+offset_top = -49.0
+offset_right = 27.0
+offset_bottom = -27.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Play"
+script = ExtResource("6_oa1go")
+metadata/_edit_use_anchors_ = true
+
+[node name="ControlJiggler" parent="PlayButton" instance=ExtResource("6_rtw2f")]
+scale_jiggle = Vector2(0.2, 0.2)
+max_pos_jiggle = Vector2(2, 2)
+max_rotation_jiggle = 1.0
+
+[node name="IntroReplayButton" type="Button" parent="."]
+layout_mode = 1
+offset_left = 5.0
+offset_top = 6.0
+offset_right = 11.0
+offset_bottom = 12.0
+theme_override_fonts/font = ExtResource("8_jk1qb")
+theme_override_font_sizes/font_size = 4
+text = "replay intro"
+script = ExtResource("6_oa1go")
+
+[node name="ControlJiggler" parent="IntroReplayButton" instance=ExtResource("6_rtw2f")]
+scale_jiggle = Vector2(0.2, 0.2)
+max_pos_jiggle = Vector2(1, 1)
+max_rotation_jiggle = 0.5
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -16.0
+offset_right = 40.0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.388235, 0.607843, 1, 1)
+theme_override_constants/line_spacing = -3
+text = "Developed with :
+Godot v4.4.stable.arch_linux"
+
+[node name="IntroAnim" parent="." instance=ExtResource("8_tbmy8")]
+visible = false
+
+[node name="Transition" parent="." instance=ExtResource("10_5dd4i")]
+layout_mode = 0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+grow_horizontal = 1
+grow_vertical = 1
+
+[connection signal="pressed" from="IntroReplayButton" to="." method="_on_intro_replay_button_pressed"]

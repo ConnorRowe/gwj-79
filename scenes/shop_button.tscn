@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://dff3jty4ru1ov"]
+[gd_scene load_steps=15 format=3 uid="uid://dff3jty4ru1ov"]
 
 [ext_resource type="Script" uid="uid://cnu555g0fh0yt" path="res://scenes/shop_button.gd" id="1_a34ft"]
 [ext_resource type="Texture2D" uid="uid://cfc2w2gowke3n" path="res://assets/button_up.png" id="2_hv2j0"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://c11gk2awuixe5" path="res://assets/button_hover.png" id="4_u16r7"]
 [ext_resource type="Theme" uid="uid://escslxlmxq8s" path="res://assets/theme.tres" id="5_28rfx"]
 [ext_resource type="Texture2D" uid="uid://cmdpsvj0s7rf7" path="res://assets/mini_coin.png" id="6_hv2j0"]
+[ext_resource type="FontFile" uid="uid://bxpu632mf8itb" path="res://assets/font/Connor4px.ttf" id="7_fw2g7"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_a34ft"]
 atlas = ExtResource("4_fw2g7")
@@ -52,47 +53,59 @@ animations = [{
 }]
 
 [node name="ShopButton" type="Node2D"]
+process_mode = 3
 script = ExtResource("1_a34ft")
 
+[node name="PanelContainer" type="PanelContainer" parent="."]
+offset_right = 88.0
+offset_bottom = 63.0
+mouse_filter = 2
+theme = ExtResource("5_28rfx")
+metadata/_edit_use_anchors_ = true
+
 [node name="TextureButton" type="TextureButton" parent="."]
-offset_left = 10.0
-offset_top = -14.0
-offset_right = 38.0
-offset_bottom = 15.0
+offset_left = 54.0
+offset_top = 28.0
+offset_right = 82.0
+offset_bottom = 57.0
 texture_normal = ExtResource("2_hv2j0")
 texture_pressed = ExtResource("3_u16r7")
 texture_hover = ExtResource("4_u16r7")
+metadata/_edit_use_anchors_ = true
 
 [node name="SlotSprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(42, 45)
 sprite_frames = SubResource("SpriteFrames_7cno0")
 frame = 4
 frame_progress = 1.0
 
 [node name="ItemLabel" type="Label" parent="."]
-offset_left = -32.0
-offset_top = -59.0
-offset_right = 59.0
-offset_bottom = -16.0
+offset_top = -2.0
+offset_right = 89.0
+offset_bottom = 25.0
 theme = ExtResource("5_28rfx")
-theme_override_constants/line_spacing = -5
+theme_override_fonts/font = ExtResource("7_fw2g7")
+theme_override_font_sizes/font_size = 4
 text = "Item name
 lvl 1"
 horizontal_alignment = 1
 vertical_alignment = 2
+metadata/_edit_use_anchors_ = true
 
 [node name="CostLabel" type="Label" parent="."]
 self_modulate = Color(0.67451, 0.196078, 0.196078, 1)
-offset_left = -33.0
-offset_top = -36.0
-offset_right = 58.0
-offset_bottom = 7.0
+offset_left = 17.0
+offset_top = 42.0
+offset_right = 53.0
+offset_bottom = 58.0
 theme = ExtResource("5_28rfx")
 theme_override_constants/line_spacing = -5
 text = "x1"
 vertical_alignment = 2
+metadata/_edit_use_anchors_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(-37, 0)
+position = Vector2(11, 50)
 texture = ExtResource("6_hv2j0")
 
 [connection signal="pressed" from="TextureButton" to="." method="_on_texture_button_pressed"]
