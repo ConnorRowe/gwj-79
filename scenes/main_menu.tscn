@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://h8gfsoarutf7"]
+[gd_scene load_steps=24 format=3 uid="uid://h8gfsoarutf7"]
 
 [ext_resource type="Shader" uid="uid://bruxtcivs5xq4" path="res://shaders/bg_ripple.gdshader" id="1_ekxnf"]
 [ext_resource type="Theme" uid="uid://escslxlmxq8s" path="res://assets/theme.tres" id="1_wu84c"]
@@ -10,11 +10,68 @@
 [ext_resource type="FontFile" uid="uid://bxpu632mf8itb" path="res://assets/font/Connor4px.ttf" id="8_jk1qb"]
 [ext_resource type="PackedScene" uid="uid://d76fp0t0n4f8" path="res://scenes/intro_anim.tscn" id="8_tbmy8"]
 [ext_resource type="PackedScene" uid="uid://daf0rgf0sjqbp" path="res://scenes/transition.tscn" id="10_5dd4i"]
+[ext_resource type="Texture2D" uid="uid://dbnvs84oxejgm" path="res://assets/logo.png" id="10_lgwnu"]
+[ext_resource type="Texture2D" uid="uid://bwku20yybv6mh" path="res://assets/fat_rat.png" id="11_flqon"]
+[ext_resource type="Texture2D" uid="uid://duc8ypwt7up8b" path="res://assets/alien.png" id="12_1ajci"]
+[ext_resource type="Texture2D" uid="uid://3us8ltrx5pmk" path="res://assets/rat.png" id="12_rcqid"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ekxnf"]
 shader = ExtResource("1_ekxnf")
 shader_parameter/ripple_x = true
 shader_parameter/alpha = 1.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7b55j"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5pajh"]
+atlas = ExtResource("12_1ajci")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j7ex8"]
+atlas = ExtResource("12_1ajci")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a8gd2"]
+atlas = ExtResource("12_1ajci")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hstxw"]
+atlas = ExtResource("12_1ajci")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8egab"]
+atlas = ExtResource("12_1ajci")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gw5y6"]
+atlas = ExtResource("12_1ajci")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_svtp6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5pajh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j7ex8")
+}, {
+"duration": 3.0,
+"texture": SubResource("AtlasTexture_a8gd2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hstxw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8egab")
+}, {
+"duration": 10.0,
+"texture": SubResource("AtlasTexture_gw5y6")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -97,15 +154,85 @@ theme_override_constants/line_spacing = -3
 text = "Developed with :
 Godot v4.4.stable.arch_linux"
 
-[node name="IntroAnim" parent="." instance=ExtResource("8_tbmy8")]
-visible = false
+[node name="Logo" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 86.0
+offset_top = 29.0
+offset_right = 204.0
+offset_bottom = 119.0
+mouse_filter = 0
+texture = ExtResource("10_lgwnu")
+script = ExtResource("6_oa1go")
+
+[node name="ControlJiggler" parent="Logo" instance=ExtResource("6_rtw2f")]
+scale_jiggle = Vector2(0.4, 0.4)
+max_pos_jiggle = Vector2(2, 2)
+max_rotation_jiggle = 1.0
+
+[node name="Rat" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 59.0
+offset_right = 80.0
+offset_bottom = 122.0
+mouse_filter = 0
+texture = ExtResource("11_flqon")
+stretch_mode = 2
+script = ExtResource("6_oa1go")
+
+[node name="ControlJiggler" parent="Rat" instance=ExtResource("6_rtw2f")]
+scale_jiggle = Vector2(0.4, 0.4)
+max_pos_jiggle = Vector2(2, 2)
+max_rotation_jiggle = 1.0
+
+[node name="Rat2" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 195.0
+offset_top = 77.0
+offset_right = 217.0
+offset_bottom = 121.0
+mouse_filter = 0
+texture = ExtResource("12_rcqid")
+stretch_mode = 2
+script = ExtResource("6_oa1go")
+
+[node name="ControlJiggler" parent="Rat2" instance=ExtResource("6_rtw2f")]
+scale_jiggle = Vector2(0.4, 0.4)
+max_pos_jiggle = Vector2(2, 2)
+max_rotation_jiggle = 1.0
+
+[node name="Alien" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 182.0
+offset_top = 5.0
+offset_right = 214.0
+offset_bottom = 37.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_7b55j")
+script = ExtResource("6_oa1go")
+
+[node name="ControlJiggler" parent="Alien" instance=ExtResource("6_rtw2f")]
+scale_jiggle = Vector2(0.4, 0.4)
+max_pos_jiggle = Vector2(2, 2)
+max_rotation_jiggle = 1.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Alien"]
+position = Vector2(16, 16)
+sprite_frames = SubResource("SpriteFrames_svtp6")
+autoplay = "default"
+frame_progress = 0.964464
 
 [node name="Transition" parent="." instance=ExtResource("10_5dd4i")]
 layout_mode = 0
 anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
+offset_right = 320.0
+offset_bottom = 180.0
 grow_horizontal = 1
 grow_vertical = 1
 
+[node name="IntroAnim" parent="." instance=ExtResource("8_tbmy8")]
+visible = false
+
+[connection signal="pressed" from="PlayButton" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="IntroReplayButton" to="." method="_on_intro_replay_button_pressed"]

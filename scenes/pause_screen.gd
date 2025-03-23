@@ -10,10 +10,16 @@ func _on_timer_timeout() -> void:
 
 
 func _on_quit_button_pressed() -> void:
-	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
+	get_tree().paused = false
+	GameStatsInst.reset_stats()
+	$Transition.transition_to_scene("res://scenes/main_menu.tscn")
 
 
 func _input(event: InputEvent) -> void:
 	if is_in_pause_menu and event.is_action_pressed("pause"):
 		# unpause
 		unpause.emit()
+
+
+func _on_unpause_button_pressed() -> void:
+	unpause.emit()

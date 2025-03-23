@@ -7,6 +7,7 @@ const ANIMATED_COIN = preload("res://scenes/animated_coin.tscn")
 const COIN_SIDE = preload("res://assets/coin_side.png")
 
 @onready var coins: Node2D = $Coins
+@onready var coin_drop_player: AudioStreamPlayer = $CoinDropPlayer
 
 var coin_count := 0
 
@@ -39,6 +40,7 @@ func add_coin() -> void:
 
 func unhide_coin(coin: Sprite2D):
 	coin.visible = true
+	coin_drop_player.play()
 
 
 func remove_coins(num: int) -> void:

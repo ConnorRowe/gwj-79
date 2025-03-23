@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://ivrhrv0wo2ar"]
+
+[ext_resource type="Script" uid="uid://c1ksahwhtgg1p" path="res://scenes/alien_egg.gd" id="1_1bu8l"]
+[ext_resource type="Texture2D" uid="uid://b71inb5yrcbg8" path="res://assets/alien_egg.png" id="1_y6xyj"]
+[ext_resource type="Script" uid="uid://bm212sc3bmvsx" path="res://scenes/jiggler.gd" id="2_ca31h"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1bu8l"]
+radius = 11.0
+height = 26.0
+
+[node name="AlienEgg" type="Node2D"]
+script = ExtResource("1_1bu8l")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_y6xyj")
+hframes = 2
+
+[node name="Jiggler" type="Node" parent="Sprite2D"]
+script = ExtResource("2_ca31h")
+max_position_jiggle = Vector2(2, 2)
+decay = 2.0
+metadata/_custom_type_script = "uid://bm212sc3bmvsx"
+
+[node name="BulletArea2D" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 0
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BulletArea2D"]
+position = Vector2(0, 1)
+shape = SubResource("CapsuleShape2D_1bu8l")

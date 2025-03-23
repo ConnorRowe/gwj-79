@@ -1,10 +1,13 @@
-[gd_scene load_steps=7 format=3 uid="uid://bfljf5hjymf0y"]
+[gd_scene load_steps=10 format=3 uid="uid://bfljf5hjymf0y"]
 
 [ext_resource type="Script" uid="uid://cfweqhjr61ldg" path="res://scenes/pause_screen.gd" id="1_27awe"]
 [ext_resource type="Shader" uid="uid://bruxtcivs5xq4" path="res://shaders/bg_ripple.gdshader" id="1_qeunj"]
 [ext_resource type="Texture2D" uid="uid://cn0bvcfgipy4v" path="res://assets/checkerboard2.png" id="2_hr2n2"]
 [ext_resource type="Theme" uid="uid://escslxlmxq8s" path="res://assets/theme.tres" id="3_hr2n2"]
+[ext_resource type="Script" uid="uid://iocwnrarl4tu" path="res://scenes/JiggleControlOnHover.gd" id="5_213y4"]
 [ext_resource type="PackedScene" uid="uid://bk60eq71bns8l" path="res://scenes/sound_settings.tscn" id="5_duq8p"]
+[ext_resource type="PackedScene" uid="uid://daf0rgf0sjqbp" path="res://scenes/transition.tscn" id="6_k26m1"]
+[ext_resource type="PackedScene" uid="uid://g03jl3msomfx" path="res://scenes/ControlJiggler.tscn" id="6_lubob"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_27awe"]
 shader = ExtResource("1_qeunj")
@@ -51,9 +54,9 @@ horizontal_alignment = 1
 [node name="QuitButton" type="Button" parent="."]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.5
+anchor_left = 0.135937
 anchor_top = 0.944444
-anchor_right = 0.5
+anchor_right = 0.135937
 anchor_bottom = 0.944444
 offset_left = -23.5
 offset_top = -17.0
@@ -61,6 +64,7 @@ offset_right = 23.5
 grow_horizontal = 2
 grow_vertical = 0
 theme = ExtResource("3_hr2n2")
+script = ExtResource("5_213y4")
 metadata/_edit_use_anchors_ = true
 
 [node name="Label" type="Label" parent="QuitButton"]
@@ -75,6 +79,44 @@ horizontal_alignment = 1
 vertical_alignment = 1
 clip_text = true
 
+[node name="ControlJiggler" parent="QuitButton" instance=ExtResource("6_lubob")]
+scale_jiggle = Vector2(0.2, 0.2)
+max_pos_jiggle = Vector2(2, 2)
+max_rotation_jiggle = 1.0
+
+[node name="UnpauseButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.498437
+anchor_top = 0.944444
+anchor_right = 0.498437
+anchor_bottom = 0.944444
+offset_left = -23.5
+offset_top = -17.0
+offset_right = 23.5
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("3_hr2n2")
+script = ExtResource("5_213y4")
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="UnpauseButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Resume"
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+
+[node name="ControlJiggler" parent="UnpauseButton" instance=ExtResource("6_lubob")]
+scale_jiggle = Vector2(0.2, 0.2)
+max_pos_jiggle = Vector2(2, 2)
+max_rotation_jiggle = 1.0
+
 [node name="Timer" type="Timer" parent="."]
 autostart = true
 
@@ -88,5 +130,17 @@ offset_left = -47.0
 offset_right = -47.0
 grow_horizontal = 0
 
+[node name="Transition" parent="." instance=ExtResource("6_k26m1")]
+process_mode = 3
+layout_mode = 0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_right = 320.0
+offset_bottom = 180.0
+grow_horizontal = 1
+grow_vertical = 1
+
 [connection signal="pressed" from="QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="UnpauseButton" to="." method="_on_unpause_button_pressed"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

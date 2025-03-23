@@ -26,7 +26,10 @@ func _process(delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	
 	if position.y > BOUNCE_FLOOR and velocity.y > 2:
+		if velocity.y > 4:
+			SoundManager.casing_bounce()
 		velocity.y *= -0.8
+	
 	
 	if position.y < BOUNCE_FLOOR:
 		velocity.y += GRAVITY * delta

@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://d6cu5dj85h13"]
+[gd_scene load_steps=27 format=3 uid="uid://d6cu5dj85h13"]
 
 [ext_resource type="PackedScene" uid="uid://dff3jty4ru1ov" path="res://scenes/shop_button.tscn" id="1_lx5au"]
 [ext_resource type="Script" uid="uid://dmrapenmsdurl" path="res://scenes/shop.gd" id="1_y6sft"]
@@ -10,6 +10,8 @@
 [ext_resource type="Texture2D" uid="uid://dbrthv8xxlsny" path="res://assets/speech_doodad.png" id="8_heatd"]
 [ext_resource type="FontFile" uid="uid://bxpu632mf8itb" path="res://assets/font/Connor4px.ttf" id="8_m4ofw"]
 [ext_resource type="Theme" uid="uid://escslxlmxq8s" path="res://assets/theme.tres" id="10_heatd"]
+[ext_resource type="Script" uid="uid://iocwnrarl4tu" path="res://scenes/JiggleControlOnHover.gd" id="11_44xle"]
+[ext_resource type="PackedScene" uid="uid://g03jl3msomfx" path="res://scenes/ControlJiggler.tscn" id="12_24it5"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2fc2m"]
 shader = ExtResource("2_1l46r")
@@ -129,13 +131,13 @@ stretch_mode = 1
 position = Vector2(10, 8)
 item_text = "Turret Feed Rate"
 stat_boost_per_level = -0.1
-cost_increase_nlog_multiplier = 2.0
+cost_increase_nlog_multiplier = 3.0
 
 [node name="ShopButton2" parent="." instance=ExtResource("1_lx5au")]
 position = Vector2(117, 8)
 item_text = "Propulsion Power"
 stat = 0
-cost_increase_nlog_multiplier = 3.0
+cost_increase_nlog_multiplier = 2.0
 
 [node name="ShopButton3" parent="." instance=ExtResource("1_lx5au")]
 position = Vector2(223, 8)
@@ -196,6 +198,7 @@ offset_top = 155.0
 offset_right = 185.0
 offset_bottom = 172.0
 theme = ExtResource("10_heatd")
+script = ExtResource("11_44xle")
 
 [node name="Label" type="Label" parent="BackButton"]
 layout_mode = 1
@@ -204,10 +207,15 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "< Back"
+text = "Back >"
 horizontal_alignment = 1
 vertical_alignment = 1
 clip_text = true
+
+[node name="ControlJiggler" parent="BackButton" instance=ExtResource("12_24it5")]
+scale_jiggle = Vector2(0.2, 0.2)
+max_pos_jiggle = Vector2(2, 2)
+max_rotation_jiggle = 1.0
 
 [connection signal="timeout" from="BlinkTimer" to="." method="_on_blink_timer_timeout"]
 [connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]

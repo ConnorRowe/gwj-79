@@ -8,6 +8,8 @@ const GWJ_79_THEME = preload("res://assets/sound/music/gwj79-theme.ogg")
 @onready var pop_player: AudioStreamPlayer = $PopPlayer
 @onready var enemy_hurt_player: AudioStreamPlayer = $EnemyHurtPlayer
 @onready var shoot_player: AudioStreamPlayer = $ShootPlayer
+@onready var coin_slot_player: AudioStreamPlayer = $CoinSlotPlayer
+@onready var casing_bounce_player: AudioStreamPlayer = $CasingBouncePlayer
 
 func play_drums() -> void:
 	music_player.stream = GWJ_79_THEME_DRUMS
@@ -28,3 +30,9 @@ func enemy_hurt() -> void:
 
 func shoot() -> void:
 	shoot_player.play()
+
+func coin_slot() -> void:
+	coin_slot_player.play()
+
+func casing_bounce() -> void:
+	casing_bounce_player.play()

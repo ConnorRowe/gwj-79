@@ -1,0 +1,152 @@
+[gd_scene load_steps=10 format=3 uid="uid://b0p6eknisysca"]
+
+[ext_resource type="Texture2D" uid="uid://b0i8mcaghknty" path="res://assets/boss_shadow.png" id="1_g1gwm"]
+[ext_resource type="Script" uid="uid://d0xvtg6ija6jh" path="res://scenes/boss.gd" id="1_xl1xk"]
+[ext_resource type="Texture2D" uid="uid://b5xtcm0d2d8qd" path="res://assets/boss.png" id="2_xl1xk"]
+[ext_resource type="Script" uid="uid://bm212sc3bmvsx" path="res://scenes/jiggler.gd" id="3_7bnqr"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qnbj4"]
+radius = 41.0
+
+[sub_resource type="Animation" id="Animation_etv3v"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BossHolder:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(160, -60)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("BossHolder/HeadHolder:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("BossHolder/HeadHolder:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_qnbj4"]
+resource_name = "die"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BossHolder/HeadHolder:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.83333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.5708]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("BossHolder/HeadHolder:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 22)]
+}
+
+[sub_resource type="Animation" id="Animation_7bnqr"]
+resource_name = "intro"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BossHolder:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(160, -60), Vector2(160, 54)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(3.93333),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"show_eggs"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vnket"]
+_data = {
+&"RESET": SubResource("Animation_etv3v"),
+&"die": SubResource("Animation_qnbj4"),
+&"intro": SubResource("Animation_7bnqr")
+}
+
+[node name="Boss" type="Node2D"]
+script = ExtResource("1_xl1xk")
+
+[node name="BossHolder" type="Node2D" parent="."]
+position = Vector2(160, -60)
+
+[node name="Sprite2D2" type="Sprite2D" parent="BossHolder"]
+self_modulate = Color(1, 1, 1, 0.47451)
+position = Vector2(0, 43.985)
+texture = ExtResource("1_g1gwm")
+
+[node name="HeadHolder" type="Node2D" parent="BossHolder"]
+
+[node name="Sprite2D" type="Sprite2D" parent="BossHolder/HeadHolder"]
+texture = ExtResource("2_xl1xk")
+
+[node name="Jiggler" type="Node" parent="BossHolder/HeadHolder/Sprite2D"]
+script = ExtResource("3_7bnqr")
+max_position_jiggle = Vector2(4, 4)
+decay = 2.0
+metadata/_custom_type_script = "uid://bm212sc3bmvsx"
+
+[node name="BulletArea2D" type="Area2D" parent="BossHolder/HeadHolder/Sprite2D"]
+collision_layer = 2
+collision_mask = 0
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BossHolder/HeadHolder/Sprite2D/BulletArea2D"]
+position = Vector2(0, 3)
+shape = SubResource("CircleShape2D_qnbj4")
+
+[node name="EggHolder" type="Node2D" parent="BossHolder"]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_vnket")
+}
+autoplay = "intro"

@@ -28,6 +28,7 @@ func _on_texture_button_pressed() -> void:
 		main.coin_stack.remove_coins(roundi(current_cost))
 		locked = true
 		slot_sprite.play("default")
+		SoundManager.coin_slot()
 		
 		level += 1
 		current_cost = 1.0 + (log(level) * cost_increase_nlog_multiplier)

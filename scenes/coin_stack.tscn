@@ -1,8 +1,20 @@
-[gd_scene load_steps=2 format=3 uid="uid://cxkjg0gnut4n0"]
+[gd_scene load_steps=4 format=3 uid="uid://cxkjg0gnut4n0"]
 
 [ext_resource type="Script" uid="uid://iv1o2tshq6xl" path="res://scenes/coin_stack.gd" id="1_ws3tn"]
+[ext_resource type="AudioStream" uid="uid://mbu14ldb8s6v" path="res://assets/sound/coin_drop.wav" id="2_y62i6"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_ybcdt"]
+random_pitch = 1.2
+random_volume_offset_db = 0.5
+streams_count = 1
+stream_0/stream = ExtResource("2_y62i6")
 
 [node name="CoinStack" type="Node2D"]
 script = ExtResource("1_ws3tn")
 
 [node name="Coins" type="Node2D" parent="."]
+
+[node name="CoinDropPlayer" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_ybcdt")
+volume_db = -3.578
+bus = &"SFX"

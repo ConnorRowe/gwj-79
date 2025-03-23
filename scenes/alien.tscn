@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://boelhh15qe8dn"]
+[gd_scene load_steps=36 format=3 uid="uid://boelhh15qe8dn"]
 
 [ext_resource type="Script" uid="uid://vag0hr2tvcqw" path="res://scenes/alien.gd" id="1_3vbw7"]
 [ext_resource type="Texture2D" uid="uid://bbn5b1bpbktgv" path="res://assets/shadow.png" id="2_np108"]
@@ -6,9 +6,11 @@
 [ext_resource type="Texture2D" uid="uid://duc8ypwt7up8b" path="res://assets/alien.png" id="3_vxp04"]
 [ext_resource type="PackedScene" uid="uid://d3rrr2sykov13" path="res://scenes/Jiggler.tscn" id="4_np108"]
 [ext_resource type="Texture2D" uid="uid://byomc0v71rf2d" path="res://assets/enemy_fade_pattern.png" id="4_xd2hs"]
+[ext_resource type="Texture2D" uid="uid://wbnv1aka605o" path="res://assets/super_alien.png" id="6_s03fr"]
 [ext_resource type="Texture2D" uid="uid://hjo3ycttjkbs" path="res://assets/laser1.png" id="7_xd2hs"]
 [ext_resource type="Texture2D" uid="uid://cuxbuo646qx8f" path="res://assets/laser2.png" id="8_s6rwo"]
 [ext_resource type="Texture2D" uid="uid://dxumkit0wf4ag" path="res://assets/laser3.png" id="9_s03fr"]
+[ext_resource type="AudioStream" uid="uid://b2qy7l424humo" path="res://assets/sound/alien-shoot.wav" id="10_s6rwo"]
 
 [sub_resource type="Animation" id="Animation_g58bj"]
 length = 0.001
@@ -207,6 +209,30 @@ region = Rect2(128, 0, 32, 32)
 atlas = ExtResource("3_vxp04")
 region = Rect2(160, 0, 32, 32)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_ek445"]
+atlas = ExtResource("6_s03fr")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_454pd"]
+atlas = ExtResource("6_s03fr")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vr5s4"]
+atlas = ExtResource("6_s03fr")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8lmac"]
+atlas = ExtResource("6_s03fr")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_46lrd"]
+atlas = ExtResource("6_s03fr")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8jox8"]
+atlas = ExtResource("6_s03fr")
+region = Rect2(160, 0, 32, 32)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_xd2hs"]
 animations = [{
 "frames": [{
@@ -230,6 +256,29 @@ animations = [{
 }],
 "loop": false,
 "name": &"blink",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ek445")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_454pd")
+}, {
+"duration": 3.0,
+"texture": SubResource("AtlasTexture_vr5s4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8lmac")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_46lrd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8jox8")
+}],
+"loop": true,
+"name": &"super_blink",
 "speed": 5.0
 }]
 
@@ -312,6 +361,21 @@ tracks/2/keys = {
 "method": &"do_damage"
 }]
 }
+tracks/3/type = "audio"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../../../EnemyShootPlayer")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("10_s6rwo")
+}],
+"times": PackedFloat32Array(0)
+}
+tracks/3/use_blend = true
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_s03fr"]
 _data = {
@@ -346,8 +410,6 @@ texture_repeat = 2
 material = SubResource("ShaderMaterial_xd2hs")
 sprite_frames = SubResource("SpriteFrames_xd2hs")
 animation = &"blink"
-frame = 5
-frame_progress = 1.0
 offset = Vector2(0, -16)
 
 [node name="Jiggler" parent="Body" instance=ExtResource("4_np108")]
@@ -392,6 +454,9 @@ shape = SubResource("CapsuleShape2D_s6rwo")
 [node name="AITimer" type="Timer" parent="."]
 wait_time = 0.5
 autostart = true
+
+[node name="EnemyShootPlayer" type="AudioStreamPlayer" parent="."]
+bus = &"SFX"
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="timeout" from="BlinkTimer" to="." method="_on_blink_timer_timeout"]

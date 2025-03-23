@@ -1,0 +1,43 @@
+[gd_scene load_steps=7 format=3 uid="uid://cd1rmm1y6hirq"]
+
+[ext_resource type="Texture2D" uid="uid://co450wikjjhh6" path="res://assets/explosion.png" id="1_17npe"]
+[ext_resource type="Script" uid="uid://buuuu8y6egsm7" path="res://scenes/explosion.gd" id="2_nfeox"]
+[ext_resource type="AudioStream" uid="uid://bffweuyei51ej" path="res://assets/sound/explosion.wav" id="3_aw4cw"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_nfeox"]
+particles_animation = true
+particles_anim_h_frames = 5
+particles_anim_v_frames = 2
+particles_anim_loop = false
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_aw4cw"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 80.0
+gravity = Vector3(0, 0, 0)
+anim_speed_min = 1.0
+anim_speed_max = 1.0
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_3el85"]
+random_pitch = 1.1
+random_volume_offset_db = 2.0
+streams_count = 1
+stream_0/stream = ExtResource("3_aw4cw")
+
+[node name="RepeatedExplosions" type="GPUParticles2D"]
+material = SubResource("CanvasItemMaterial_nfeox")
+amount = 4
+texture = ExtResource("1_17npe")
+process_material = SubResource("ParticleProcessMaterial_aw4cw")
+script = ExtResource("2_nfeox")
+
+[node name="ExplosionPlayer" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_3el85")
+volume_db = -5.725
+bus = &"SFX"
+
+[node name="ExposionSoundTimer" type="Timer" parent="."]
+wait_time = 0.25
+autostart = true
+
+[connection signal="timeout" from="ExposionSoundTimer" to="." method="_on_exposion_sound_timer_timeout"]

@@ -1,0 +1,109 @@
+[gd_scene load_steps=10 format=3 uid="uid://doouik8kxfjo7"]
+
+[ext_resource type="Shader" uid="uid://bruxtcivs5xq4" path="res://shaders/bg_ripple.gdshader" id="1_2l6cc"]
+[ext_resource type="Texture2D" uid="uid://cn0bvcfgipy4v" path="res://assets/checkerboard2.png" id="2_e41g7"]
+[ext_resource type="Script" uid="uid://c4ye5g5s4didi" path="res://scenes/win_screen.gd" id="2_qnnn4"]
+[ext_resource type="PackedScene" uid="uid://daf0rgf0sjqbp" path="res://scenes/transition.tscn" id="3_0lrm4"]
+[ext_resource type="Theme" uid="uid://escslxlmxq8s" path="res://assets/theme.tres" id="4_doie2"]
+[ext_resource type="FontFile" uid="uid://bxpu632mf8itb" path="res://assets/font/Connor4px.ttf" id="5_r6ob7"]
+[ext_resource type="Script" uid="uid://iocwnrarl4tu" path="res://scenes/JiggleControlOnHover.gd" id="6_o8vhx"]
+[ext_resource type="PackedScene" uid="uid://g03jl3msomfx" path="res://scenes/ControlJiggler.tscn" id="7_0d7wf"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_l756l"]
+shader = ExtResource("1_2l6cc")
+shader_parameter/ripple_x = true
+shader_parameter/alpha = 1.0
+
+[node name="WinScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+theme = ExtResource("4_doie2")
+script = ExtResource("2_qnnn4")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_l756l")
+layout_mode = 0
+offset_left = -1.0
+offset_top = -1.0
+offset_right = 321.0
+offset_bottom = 181.0
+texture = ExtResource("2_e41g7")
+stretch_mode = 1
+
+[node name="PlayButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 124.0
+offset_top = 136.0
+offset_right = 190.0
+offset_bottom = 158.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Return"
+script = ExtResource("6_o8vhx")
+
+[node name="ControlJiggler" parent="PlayButton" instance=ExtResource("7_0d7wf")]
+scale_jiggle = Vector2(0.2, 0.2)
+max_pos_jiggle = Vector2(2, 2)
+max_rotation_jiggle = 1.0
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.416149
+anchor_top = 0.447802
+anchor_right = 0.586957
+anchor_bottom = 0.502747
+offset_left = 89.0
+offset_top = 49.0
+offset_right = 232.0
+offset_bottom = 112.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("4_doie2")
+script = ExtResource("6_o8vhx")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.898039, 0.313726, 1)
+text = "You Win!!!"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(154, 50)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("5_r6ob7")
+theme_override_font_sizes/font_size = 4
+text = "Congratulations!
+
+Because of your brave actions, your Ratio is safe again!
+
+Thank you for playing :D"
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="ControlJiggler" parent="PanelContainer" instance=ExtResource("7_0d7wf")]
+scale_jiggle = Vector2(0.2, 0.2)
+max_pos_jiggle = Vector2(2, 2)
+max_rotation_jiggle = 1.0
+
+[node name="Transition" parent="." instance=ExtResource("3_0lrm4")]
+process_mode = 3
+layout_mode = 0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_right = 320.0
+offset_bottom = 180.0
+grow_horizontal = 1
+grow_vertical = 1
+
+[connection signal="pressed" from="PlayButton" to="." method="_on_play_button_pressed"]

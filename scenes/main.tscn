@@ -1,15 +1,27 @@
-[gd_scene load_steps=18 format=3 uid="uid://cwm0j7kfes2jt"]
+[gd_scene load_steps=22 format=3 uid="uid://cwm0j7kfes2jt"]
 
 [ext_resource type="PackedScene" uid="uid://ckj0vgb12l7gj" path="res://scenes/player.tscn" id="1_o5qli"]
 [ext_resource type="Script" uid="uid://edskk6v02fk3" path="res://scenes/main.gd" id="1_sugp2"]
+[ext_resource type="Texture2D" uid="uid://cki1b43vuv5an" path="res://assets/patio.png" id="3_eb6dy"]
 [ext_resource type="FontFile" uid="uid://bpeduc0frp0b2" path="res://assets/font/ConsFont_v2.ttf" id="3_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://djnlwxvkvp8e4" path="res://scenes/JigglyCamera2D.tscn" id="3_sugp2"]
+[ext_resource type="Texture2D" uid="uid://crcc7t51dhrs3" path="res://assets/shrub.png" id="3_ya4ey"]
 [ext_resource type="PackedScene" uid="uid://cxkjg0gnut4n0" path="res://scenes/coin_stack.tscn" id="7_o6xl0"]
 [ext_resource type="Theme" uid="uid://escslxlmxq8s" path="res://assets/theme.tres" id="9_85g3d"]
 [ext_resource type="PackedScene" uid="uid://bfljf5hjymf0y" path="res://scenes/pause_screen.tscn" id="9_choun"]
 [ext_resource type="PackedScene" uid="uid://b8heav68samld" path="res://scenes/shop_bell.tscn" id="10_choun"]
 [ext_resource type="PackedScene" uid="uid://daf0rgf0sjqbp" path="res://scenes/transition.tscn" id="10_ya4ey"]
 [ext_resource type="PackedScene" uid="uid://d6cu5dj85h13" path="res://scenes/shop.tscn" id="11_ya4ey"]
+
+[sub_resource type="Curve" id="Curve_ya4ey"]
+_limits = [0.01, 5.0, 0.0, 1.0]
+_data = [Vector2(0, 5), 0.0, 0.0, 0, 0, Vector2(0.579781, 3.43869), 0.0, 0.0, 0, 0, Vector2(1, 0.556972), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Curve" id="Curve_choun"]
+_limits = [1.0, 10.0, 0.0, 1.0]
+_data = [Vector2(0, 3), 0.0, 0.0, 0, 0, Vector2(0.763703, 6.37945), 0.0, 0.0, 0, 0, Vector2(1, 10), 0.0, 0.0, 0, 0]
+point_count = 3
 
 [sub_resource type="LabelSettings" id="LabelSettings_tbgi4"]
 font = ExtResource("3_jyhfs")
@@ -91,6 +103,8 @@ _data = {
 [node name="Main" type="Node2D"]
 y_sort_enabled = true
 script = ExtResource("1_sugp2")
+enemy_spawn_time_curve = SubResource("Curve_ya4ey")
+enemy_health_curve = SubResource("Curve_choun")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 z_index = -2
@@ -108,11 +122,88 @@ offset_bottom = -8.0
 text = "320 x 180"
 
 [node name="Debug" type="Label" parent="Reference"]
+visible = false
 offset_left = 5.0
 offset_top = 3.0
 offset_right = 77.0
 offset_bottom = 26.0
 label_settings = SubResource("LabelSettings_tbgi4")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+z_index = -2
+offset_top = 159.0
+offset_right = 320.0
+offset_bottom = 191.0
+texture = ExtResource("3_eb6dy")
+expand_mode = 2
+stretch_mode = 1
+
+[node name="Shrubs" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Shrubs"]
+position = Vector2(36, 41)
+texture = ExtResource("3_ya4ey")
+centered = false
+offset = Vector2(-8, -14)
+
+[node name="Sprite2D2" type="Sprite2D" parent="Shrubs"]
+position = Vector2(107, 84)
+texture = ExtResource("3_ya4ey")
+centered = false
+offset = Vector2(-8, -14)
+flip_h = true
+
+[node name="Sprite2D3" type="Sprite2D" parent="Shrubs"]
+position = Vector2(130, 134)
+texture = ExtResource("3_ya4ey")
+centered = false
+offset = Vector2(-8, -14)
+
+[node name="Sprite2D4" type="Sprite2D" parent="Shrubs"]
+position = Vector2(263, 140)
+texture = ExtResource("3_ya4ey")
+centered = false
+offset = Vector2(-8, -14)
+flip_h = true
+
+[node name="Sprite2D5" type="Sprite2D" parent="Shrubs"]
+position = Vector2(231, 77)
+texture = ExtResource("3_ya4ey")
+centered = false
+offset = Vector2(-8, -14)
+
+[node name="Sprite2D6" type="Sprite2D" parent="Shrubs"]
+position = Vector2(277, 18)
+texture = ExtResource("3_ya4ey")
+centered = false
+offset = Vector2(-8, -14)
+flip_h = true
+
+[node name="Sprite2D7" type="Sprite2D" parent="Shrubs"]
+position = Vector2(212, 23)
+texture = ExtResource("3_ya4ey")
+centered = false
+offset = Vector2(-8, -14)
+
+[node name="Sprite2D8" type="Sprite2D" parent="Shrubs"]
+position = Vector2(52, 157)
+texture = ExtResource("3_ya4ey")
+centered = false
+offset = Vector2(-8, -14)
+
+[node name="Sprite2D9" type="Sprite2D" parent="Shrubs"]
+position = Vector2(13, 97)
+texture = ExtResource("3_ya4ey")
+centered = false
+offset = Vector2(-8, -14)
+flip_h = true
+
+[node name="Sprite2D10" type="Sprite2D" parent="Shrubs"]
+position = Vector2(146, 38)
+texture = ExtResource("3_ya4ey")
+centered = false
+offset = Vector2(-8, -14)
+flip_h = true
 
 [node name="CropsHolder" type="Node2D" parent="."]
 
@@ -171,6 +262,41 @@ step = 1.0
 value = 50.0
 show_percentage = false
 
+[node name="BossHealthBar" type="ProgressBar" parent="GUI"]
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -154.0
+offset_top = 4.0
+offset_right = 154.0
+offset_bottom = 14.0
+grow_horizontal = 2
+max_value = 1.0
+value = 1.0
+show_percentage = false
+
+[node name="Label" type="Label" parent="GUI/BossHealthBar"]
+layout_mode = 0
+offset_top = 9.0
+offset_right = 129.0
+offset_bottom = 25.0
+text = "Glorp, Alien Overlord"
+
+[node name="CountdownLabel" type="Label" parent="GUI"]
+z_index = 20
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 16.0
+grow_horizontal = 2
+text = "3:00"
+horizontal_alignment = 1
+
 [node name="ShopBell" parent="." instance=ExtResource("10_choun")]
 z_index = 4
 position = Vector2(0, 92)
@@ -205,9 +331,13 @@ offset_bottom = 180.0
 grow_horizontal = 1
 grow_vertical = 1
 
+[node name="CountdownTimer" type="Timer" parent="."]
+autostart = true
+
 [connection signal="on_player_shoot" from="Player" to="." method="_on_player_on_player_shoot"]
 [connection signal="shop_closed" from="Shop" to="." method="_on_shop_shop_closed"]
 [connection signal="on_bell_rung" from="ShopBell" to="." method="_on_shop_bell_on_bell_rung"]
 [connection signal="timeout" from="EnemySpawnTimer" to="." method="_on_enemy_spawn_timer_timeout"]
 [connection signal="timeout" from="SeedSpawnTimer" to="." method="_on_seed_spawn_timer_timeout"]
 [connection signal="unpause" from="PauseScreen" to="." method="_on_pause_screen_unpause"]
+[connection signal="timeout" from="CountdownTimer" to="." method="_on_countdown_timer_timeout"]

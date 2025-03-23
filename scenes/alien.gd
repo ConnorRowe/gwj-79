@@ -16,13 +16,13 @@ enum EnemyState
 @onready var attack_animation_player: AnimationPlayer = $Body/EyeMarker/AttackLine2D/AttackAnimationPlayer
 @onready var attack_line_2d: Line2D = $Body/EyeMarker/AttackLine2D
 
-const SPEED = 20.0
+var speed = 30.0
 var dir := Vector2.LEFT
-var health := 3
+var health := 5
 var is_dead := false
 var state := EnemyState.WALK_DOWN
 var target: Node = null
-
+var blink_anim = "blink"
 
 func _ready() -> void:
 	$AITimer.wait_time += randf_range(-0.01, 0.01)
@@ -58,16 +58,16 @@ func _physics_process(_delta: float) -> void:
 				change_state(EnemyState.WALK_DOWN)
 		
 	if dir.length_squared():
-		velocity = dir * SPEED
+		velocity = dir * speed
 	else:
-		velocity = Vector2(move_toward(velocity.x, 0, SPEED), move_toward(velocity.y, 0, SPEED))
+		velocity = Vector2(move_toward(velocity.x, 0, speed), move_toward(velocity.y, 0, speed))
 
 	move_and_slide()
 
 
 func _on_blink_timer_timeout() -> void:
 	blink_timer.wait_time = randf_range(2, 5)
-	body.play("blink")
+	body.play(blink_anim)
 
 
 func deal_damage(damage: int) -> bool:
@@ -89,6 +89,8 @@ func die() -> void:
 	
 	is_dead = true
 	$AnimationPlayer.play("die")
+	attack_animation_player.stop()
+	$EnemyShootPlayer.stop()
 	jiggler.jiggle(1)
 
 
@@ -106,12 +108,12 @@ func _on_ai_timer_timeout() -> void:
 				var closest_dst = 99999999
 				for crop in crops:
 					var dst =  position.distance_squared_to(crop.position)
-					if dst < closest_dst:
+					if dst < closest_dst and position.y < crop.position.y:
 						closest_dst = dst
 						closest = crop
 				
 				if not is_instance_valid(closest):
-					printerr("Closest crop was not valid!")
+					print("Closest crop was invalid")
 				else:
 					target = closest
 					change_state(EnemyState.WALK_TO_CROP)
@@ -146,4 +148,4 @@ func change_state(new_state: EnemyState) -> void:
 
 func do_damage() -> void:
 	if is_instance_valid(target) and target.has_method("deal_damage"):
-		target.deal_damage(1)
+		target.deal_damage(2)

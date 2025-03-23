@@ -83,4 +83,4 @@ func shoot() -> void:
 
 func game_stat_changed(stat: GameStats.Stat, value: Variant) -> void:
 	if stat == GameStats.Stat.FIRE_RATE:
-		shoot_timer.wait_time = value
+		shoot_timer.wait_time = maxf(0.0166666666667, value)
